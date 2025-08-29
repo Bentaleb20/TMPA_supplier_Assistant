@@ -235,7 +235,6 @@ const Topbar: React.FC<{
     {/* LEFT: bigger logo */}
     <div className="flex items-center gap-3">
      <img src={tmLogo} alt="Tanger Med" />
-      <img src={chatBotLogo} alt="Bot" />
     </div>
 
     {/* CENTER: title */}
