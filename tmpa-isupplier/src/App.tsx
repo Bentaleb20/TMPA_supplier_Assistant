@@ -710,7 +710,7 @@ const Chat = forwardRef<ChatHandle, {
       <div className="p-3 sm:p-4 border-b bg-white/80 backdrop-blur">
         <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
-  <img src="/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
+  <img src="public/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
 </div>
 
           <div>
