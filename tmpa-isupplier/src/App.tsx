@@ -32,8 +32,8 @@ import {
 import { motion } from "framer-motion";
 
 // Build a GitHub-Pages-safe URL for anything in tmpa-isupplier/public/
-const asset = (p: string) => `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
-
+import tmLogo from "./assets/tm-logo.png";
+import chatBotLogo from "./assets/chat_bot_logo.png";
 
 
 type TSpeechRecognition = {
@@ -234,11 +234,8 @@ const Topbar: React.FC<{
   <div className="h-16 bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-blue-100 px-4 sm:px-6 flex items-center relative">
     {/* LEFT: bigger logo */}
     <div className="flex items-center gap-3">
-      <img
-        src="public/tm-logo.png"
-        alt="Tanger Med Port Authority"
-        className="h-12 sm:h-14 w-auto object-contain"
-      />
+     <img src={tmLogo} alt="Tanger Med" />
+      <img src={chatBotLogo} alt="Bot" />
     </div>
 
     {/* CENTER: title */}
