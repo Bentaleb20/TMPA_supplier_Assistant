@@ -31,9 +31,10 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-/* --------------------------------------------------------
-   TS stubs pour l’API Web Speech (évite l’erreur TS2304)
----------------------------------------------------------*/
+const asset = (p: string) =>
+  `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
+
+
 type TSpeechRecognition = {
   lang: string;
   interimResults: boolean;
@@ -233,7 +234,7 @@ const Topbar: React.FC<{
     {/* LEFT: bigger logo */}
     <div className="flex items-center gap-3">
       <img
-        src="/tm-logo.png"
+        src="public/tm-logo.png"
         alt="Tanger Med Port Authority"
         className="h-12 sm:h-14 w-auto object-contain"
       />
