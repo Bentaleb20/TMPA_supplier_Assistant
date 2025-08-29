@@ -30,6 +30,10 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { motion } from "framer-motion";
+// under your existing imports
+const asset = (p: string) =>
+  `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
+
 
 import tmLogo from "./assets/tm-logo.png";
 import chatBotLogo from "./assets/chat_bot_logo.png";
@@ -232,9 +236,12 @@ const Topbar: React.FC<{
 }> = ({ lang, setLang, onHelp, onSettings, onProfile }) => (
   <div className="h-16 bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-blue-100 px-4 sm:px-6 flex items-center relative">
     {/* LEFT: bigger logo */}
-    <div className="flex items-center gap-3">
-     <img src={tmLogo} alt="Tanger Med" />
-    </div>
+<div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
+  <img src={chatBotLogo} alt="TMPA" className="w-7 h-7 object-contain" />
+</div>
+
+
+
 
     {/* CENTER: title */}
     <div className="absolute inset-x-0 flex items-center justify-center px-28 pointer-events-none">
