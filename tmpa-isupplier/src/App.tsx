@@ -31,8 +31,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const asset = (p: string) =>
-  `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
+// Build a GitHub-Pages-safe URL for anything in tmpa-isupplier/public/
+const asset = (p: string) => `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
+
 
 
 type TSpeechRecognition = {
@@ -234,7 +235,7 @@ const Topbar: React.FC<{
     {/* LEFT: bigger logo */}
     <div className="flex items-center gap-3">
       <img
-        src="public/tm-logo.png"
+        src="asset/tm-logo.png"
         alt="Tanger Med Port Authority"
         className="h-12 sm:h-14 w-auto object-contain"
       />
@@ -710,8 +711,21 @@ const Chat = forwardRef<ChatHandle, {
       <div className="p-3 sm:p-4 border-b bg-white/80 backdrop-blur">
         <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
-  <img src="public/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
+  <img src="asset/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
 </div>
+<img src={asset("screenshots/supplier-registration/step1.webp")} alt="Supplier registration – step 1" />
+<img src={asset("screenshots/supplier-registration/step2.webp")} alt="Supplier registration – step 2" />
+<img src={asset("screenshots/supplier-registration/step3.webp")} alt="Supplier registration – step 3" />
+<img src={asset("screenshots/supplier-registration/step4.webp")} alt="Supplier registration – step 4" />
+<img src={asset("screenshots/supplier-registration/step5.webp")} alt="Supplier registration – step 5" />
+<img src={asset("screenshots/supplier-registration/step6.webp")} alt="Supplier registration – step 6" />
+<img src={asset("screenshots/supplier-registration/step7.webp")} alt="Supplier registration – step 7" />
+
+      
+<img src={asset("screenshots/Forgot_Password/step1.webp")} alt="Forgot Password – step 1" />
+<img src={asset("screenshots/Forgot_Password/step2.webp")} alt="Forgot Password – step 2" />
+<img src={asset("screenshots/Forgot_Password/step3.webp")} alt="Forgot Password – step 3" />
+
 
           <div>
             <div className="font-semibold text-gray-800 text-sm">{t("Assistant", "Assistant")}</div>
