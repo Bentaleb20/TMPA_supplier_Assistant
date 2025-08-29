@@ -1,3 +1,4 @@
+// tmpa-isupplier/src/App.tsx
 import React, {
   useEffect,
   useMemo,
@@ -31,10 +32,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-<<<<<<< HEAD
-=======
-/** Build a GitHub-Pages-safe URL for items that Rasa may return as relative paths */
->>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
+/** URL helper pour ressources relatives (screenshots renvoyés par Rasa, etc.) */
 const asset = (p: string) =>
   `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
 
@@ -59,7 +57,7 @@ declare global {
 }
 
 /* =========================================================
-   Tanger Med – iSupplier Assistant (Rasa-wired, refined)
+   Tanger Med – iSupplier Assistant (Rasa-wired)
    ========================================================= */
 
 type Lang = "EN" | "FR";
@@ -70,10 +68,7 @@ const RASA_URL = ((import.meta as any)?.env?.VITE_RASA_URL ?? "http://localhost:
 const TOKEN = (import.meta as any)?.env?.VITE_RASA_TOKEN ?? "";
 const RASA_WEBHOOK = RASA_URL + "/webhooks/rest/webhook" + (TOKEN ? `?token=${encodeURIComponent(TOKEN)}` : "");
 
-const brand = {
-  blue: "#0B5AC2",
-  blueSoft: "#E8F0FF",
-};
+const brand = { blue: "#0B5AC2", blueSoft: "#E8F0FF" };
 
 function getOrCreateSessionId(): string {
   const k = "tmpa.sessionId";
@@ -137,41 +132,27 @@ function rasaTriggerFor(flowId: string, lang: Lang) {
 
 /* ---------- UI primitives ---------- */
 const PillButton: React.FC<{
-  label: string;
-  Icon?: IconType;
-  variant?: "primary" | "secondary";
-  onClick: () => void;
-  title?: string;
+  label: string; Icon?: IconType; variant?: "primary" | "secondary"; onClick: () => void; title?: string;
 }> = ({ label, Icon, variant = "primary", onClick, title }) => {
   const style =
     variant === "primary"
       ? "bg-[var(--brand-blue)] text-white shadow hover:shadow-md"
       : "bg-[var(--blue-soft)] text-[var(--brand-blue)] border border-blue-200 hover:shadow";
   return (
-    <button
-      title={title}
-      onClick={onClick}
-      className={`inline-flex items-center gap-2 px-3 py-2 rounded-full text-[13px] transition ${style}`}
-    >
+    <button title={title} onClick={onClick} className={`inline-flex items-center gap-2 px-3 py-2 rounded-full text-[13px] transition ${style}`}>
       {Icon ? <Icon size={16} /> : null}
       {label && <span>{label}</span>}
     </button>
   );
 };
 
-const Modal: React.FC<{
-  title: string;
-  onClose: () => void;
-  children: React.ReactNode;
-}> = ({ title, onClose, children }) => (
+const Modal: React.FC<{ title: string; onClose: () => void; children: React.ReactNode; }> = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50">
     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
     <div className="relative mx-auto my-6 w-[92vw] max-w-3xl rounded-2xl bg-white shadow-xl border ring-1 ring-blue-100">
       <div className="flex items-center justify-between px-4 py-3 border-b">
         <div className="text-sm font-semibold text-gray-700">{title}</div>
-        <button onClick={onClose} className="p-1.5 rounded-lg border hover:bg-gray-50">
-          <X size={16} />
-        </button>
+        <button onClick={onClose} className="p-1.5 rounded-lg border hover:bg-gray-50"><X size={16} /></button>
       </div>
       <div className="p-4">{children}</div>
     </div>
@@ -180,61 +161,34 @@ const Modal: React.FC<{
 
 /* ---------- Header ---------- */
 const Topbar: React.FC<{
-  lang: Lang;
-  setLang: (l: Lang) => void;
-  onHelp: () => void;
-  onSettings: () => void;
-  onProfile: () => void;
+  lang: Lang; setLang: (l: Lang) => void; onHelp: () => void; onSettings: () => void; onProfile: () => void;
 }> = ({ lang, setLang, onHelp, onSettings, onProfile }) => (
   <div className="h-16 bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-blue-100 px-4 sm:px-6 flex items-center relative">
-    {/* LEFT: bigger logo */}
+    {/* LEFT: logo */}
     <div className="flex items-center gap-3">
-      <img
-<<<<<<< HEAD
-        src="public/tm-logo.png"
-=======
-        src={tmLogo}
->>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
-        alt="Tanger Med Port Authority"
-        className="h-12 sm:h-14 w-auto object-contain"
-      />
+      <img src={tmLogo} alt="Tanger Med Port Authority" className="h-12 sm:h-14 w-auto object-contain" />
     </div>
 
     {/* CENTER: title */}
     <div className="absolute inset-x-0 flex items-center justify-center px-28 pointer-events-none">
-      <h1
-        className="font-inter font-semibold text-neutral-900 text-[14px] sm:text-[15px] md:text-[17px] leading-[1.1] tracking-wide text-center whitespace-nowrap"
-        style={{ letterSpacing: "0.02em" }}
-      >
+      <h1 className="font-inter font-semibold text-neutral-900 text-[14px] sm:text-[15px] md:text-[17px] leading-[1.1] tracking-wide text-center whitespace-nowrap" style={{ letterSpacing: "0.02em" }}>
         Oracle EBS Assistant – Tanger Med i-Supplier Portal
       </h1>
     </div>
 
     {/* RIGHT: controls */}
     <div className="ml-auto flex items-center gap-2">
-      <button onClick={() => setLang(lang === "EN" ? "FR" : "EN")} className="p-2 rounded-xl border hover:bg-gray-50" title="Language">
-        <Globe size={18} />
-      </button>
-      <button onClick={onHelp} className="p-2 rounded-xl border hover:bg-gray-50" title="Help">
-        <HelpCircle size={18} />
-      </button>
-      <button onClick={onSettings} className="p-2 rounded-xl border hover:bg-gray-50" title="Settings">
-        <Settings size={18} />
-      </button>
-      <button onClick={onProfile} className="p-2 rounded-xl border hover:bg-gray-50" title="Profile">
-        <UserCircle2 size={18} />
-      </button>
+      <button onClick={() => setLang(lang === "EN" ? "FR" : "EN")} className="p-2 rounded-xl border hover:bg-gray-50" title="Language"><Globe size={18} /></button>
+      <button onClick={onHelp} className="p-2 rounded-xl border hover:bg-gray-50" title="Help"><HelpCircle size={18} /></button>
+      <button onClick={onSettings} className="p-2 rounded-xl border hover:bg-gray-50" title="Settings"><Settings size={18} /></button>
+      <button onClick={onProfile} className="p-2 rounded-xl border hover:bg-gray-50" title="Profile"><UserCircle2 size={18} /></button>
     </div>
   </div>
 );
 
 /* ---------- Sidebar (Left) ---------- */
 const Sidebar: React.FC<{
-  collapsed: boolean;
-  setCollapsed: (v: boolean) => void;
-  onStartFlow: (id: string) => void;
-  lang: Lang;
-  onExit: () => void;
+  collapsed: boolean; setCollapsed: (v: boolean) => void; onStartFlow: (id: string) => void; lang: Lang; onExit: () => void;
 }> = ({ collapsed, setCollapsed, onStartFlow, lang, onExit }) => {
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
   const groups = [
@@ -244,16 +198,8 @@ const Sidebar: React.FC<{
   ];
 
   return (
-    <div
-      className={`bg-white/95 ring-1 ring-blue-100 shadow-xl h-full min-h-0 rounded-3xl p-3 flex flex-col relative transition-all ${
-        collapsed ? "w-16" : "w-[260px]"
-      }`}
-    >
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-16 bg-white border rounded-full p-1 shadow hover:shadow-md"
-        aria-label="Collapse sidebar"
-      >
+    <div className={`bg-white/95 ring-1 ring-blue-100 shadow-xl h-full min-h-0 rounded-3xl p-3 flex flex-col relative transition-all ${collapsed ? "w-16" : "w-[260px]"}`}>
+      <button onClick={() => setCollapsed(!collapsed)} className="absolute -right-3 top-16 bg-white border rounded-full p-1 shadow hover:shadow-md" aria-label="Collapse sidebar">
         {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
 
@@ -267,22 +213,13 @@ const Sidebar: React.FC<{
       <div className="space-y-3 overflow-hidden">
         {groups.map((g, gi) => (
           <div key={gi}>
-            {!collapsed && (
-              <div className="text-[11px] font-semibold text-gray-500 mb-2">{g.title}</div>
-            )}
+            {!collapsed && <div className="text-[11px] font-semibold text-gray-500 mb-2">{g.title}</div>}
             <div className={`flex ${collapsed ? "flex-col items-center" : "flex-col"} gap-2`}>
               {g.items.map((id) => {
                 const f = flows[id];
                 const Icon: IconType = f.priority === "primary" ? FileSignature : Receipt;
                 return (
-                  <PillButton
-                    key={id}
-                    label={collapsed ? "" : f.label}
-                    Icon={Icon}
-                    variant={f.priority}
-                    title={f.label}
-                    onClick={() => onStartFlow(id)}
-                  />
+                  <PillButton key={id} label={collapsed ? "" : f.label} Icon={Icon} variant={f.priority} title={f.label} onClick={() => onStartFlow(id)} />
                 );
               })}
             </div>
@@ -291,10 +228,7 @@ const Sidebar: React.FC<{
       </div>
 
       <div className="mt-auto">
-        <button
-          onClick={onExit}
-          className={`w-full mt-3 ${collapsed ? "px-2 py-2" : "px-3 py-3"} rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow hover:shadow-md text-sm`}
-        >
+        <button onClick={onExit} className={`w-full mt-3 ${collapsed ? "px-2 py-2" : "px-3 py-3"} rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow hover:shadow-md text-sm`}>
           {t("EXIT FLOW", "QUITTER LE FLUX")}
         </button>
       </div>
@@ -313,22 +247,8 @@ const VerticalProgress: React.FC<{ value?: number }> = ({ value = 0 }) => {
 };
 
 const RightSidebar: React.FC<{
-  lang: Lang;
-  flowTitle?: string;
-  activeStep: number;
-  totalSteps: number;
-  sessionIdForUi: string;
-  onCopySession: (sid: string) => void;
-  onResetSession: () => void;
-}> = ({
-  lang,
-  flowTitle,
-  activeStep,
-  totalSteps,
-  sessionIdForUi,
-  onCopySession,
-  onResetSession,
-}) => {
+  lang: Lang; flowTitle?: string; activeStep: number; totalSteps: number; sessionIdForUi: string; onCopySession: (sid: string) => void; onResetSession: () => void;
+}> = ({ lang, flowTitle, activeStep, totalSteps, sessionIdForUi, onCopySession, onResetSession }) => {
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
 
   const pct = useMemo(() => {
@@ -338,9 +258,7 @@ const RightSidebar: React.FC<{
 
   const shortSid = useMemo(() => {
     if (!sessionIdForUi) return "";
-    return sessionIdForUi.length > 10
-      ? `${sessionIdForUi.slice(0, 5)}…${sessionIdForUi.slice(-4)}`
-      : sessionIdForUi;
+    return sessionIdForUi.length > 10 ? `${sessionIdForUi.slice(0, 5)}…${sessionIdForUi.slice(-4)}` : sessionIdForUi;
   }, [sessionIdForUi]);
 
   return (
@@ -357,9 +275,7 @@ const RightSidebar: React.FC<{
           </div>
         </div>
         {flowTitle && (
-          <div className="mt-2 text-xs text-gray-600">
-            <span className="font-semibold">{t("Flow:", "Parcours :")}</span> {flowTitle}
-          </div>
+          <div className="mt-2 text-xs text-gray-600"><span className="font-semibold">{t("Flow:", "Parcours :")}</span> {flowTitle}</div>
         )}
       </div>
 
@@ -367,12 +283,8 @@ const RightSidebar: React.FC<{
         <div className="text-sm font-semibold text-gray-700 mb-2">{t("Session", "Session")}</div>
         <div className="flex items-center gap-2">
           <div className="px-2 py-1 rounded-md bg-gray-100 text-xs text-gray-700 select-all">{shortSid}</div>
-          <button onClick={() => onCopySession(sessionIdForUi)} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">
-            {t("Copy", "Copier")}
-          </button>
-          <button onClick={onResetSession} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">
-            {t("Reset", "Réinitialiser")}
-          </button>
+          <button onClick={() => onCopySession(sessionIdForUi)} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">{t("Copy", "Copier")}</button>
+          <button onClick={onResetSession} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">{t("Reset", "Réinitialiser")}</button>
         </div>
       </div>
 
@@ -405,7 +317,6 @@ function extractChips(text: string, lang: Lang): Array<{ icon: IconType; label: 
   const add = (icon: IconType, label: string) => list.push({ icon, label });
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
   const lc = text.toLowerCase();
-
   if (lc.includes("cliquer") || lc.includes("click")) add(MousePointer2, t("Click", "Cliquer"));
   if (lc.includes("saisir") || lc.includes("enter")) add(Keyboard, t("Enter", "Saisir"));
   if (lc.includes("sélectionner") || lc.includes("select")) add(CheckCircle2, t("Select", "Sélectionner"));
@@ -417,17 +328,10 @@ function extractChips(text: string, lang: Lang): Array<{ icon: IconType; label: 
 
 /* ---------- Chat (exposes sendExternal to parent) ---------- */
 type ChatMsg = { from: "assistant" | "user"; text?: string; image?: string; stepIndex?: number };
-
-type ChatHandle = {
-  sendExternal: (message: string) => Promise<void>;
-};
+type ChatHandle = { sendExternal: (message: string) => Promise<void> };
 
 const Chat = forwardRef<ChatHandle, {
-  lang: Lang;
-  setActiveStep: (s: number) => void;
-  setFlowTitle: (t?: string) => void;
-  setTotalSteps: (n: number) => void;
-  totalStepsForUi: number;
+  lang: Lang; setActiveStep: (s: number) => void; setFlowTitle: (t?: string) => void; setTotalSteps: (n: number) => void; totalStepsForUi: number;
 }>(({ lang, setActiveStep, setFlowTitle, setTotalSteps, totalStepsForUi }, ref) => {
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
   const [input, setInput] = useState("");
@@ -435,20 +339,13 @@ const Chat = forwardRef<ChatHandle, {
   const [interim, setInterim] = useState("");
   const [thinking, setThinking] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
-    {
-      from: "assistant",
-      text: t(
-        "Hello! I'm your Tanger Med supplier assistant. Choose an action from the left to begin.",
-        "Bonjour ! Choisissez une action à gauche pour commencer."
-      ),
-    },
+    { from: "assistant", text: t("Hello! I'm your Tanger Med supplier assistant. Choose an action from the left to begin.", "Bonjour ! Choisissez une action à gauche pour commencer.") },
   ]);
   const [imageModal, setImageModal] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
-
   const recRef = useRef<TSpeechRecognition | null>(null);
-
   const listRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const el = listRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -475,14 +372,7 @@ const Chat = forwardRef<ChatHandle, {
         }
         if (r.image) {
           const url = normalizeImage(r.image);
-          setMessages((m) => [
-            ...m,
-            {
-              from: "assistant",
-              text: t("A screenshot is available for this step.", "Une capture est disponible pour cette étape."),
-              image: url,
-            },
-          ]);
+          setMessages((m) => [...m, { from: "assistant", text: t("A screenshot is available for this step.", "Une capture est disponible pour cette étape."), image: url }]);
         }
         if (r.custom && typeof r.custom.step_index === "number") setActiveStep(r.custom.step_index);
       }
@@ -502,9 +392,7 @@ const Chat = forwardRef<ChatHandle, {
   }
 
   useImperativeHandle(ref, () => ({
-    sendExternal: async (message: string) => {
-      await sendLocal(message);
-    },
+    sendExternal: async (message: string) => { await sendLocal(message); },
   }));
 
   async function onPickFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -514,12 +402,7 @@ const Chat = forwardRef<ChatHandle, {
     reader.onload = async () => {
       const base64 = (reader.result as string).split(",")[1] || "";
       setMessages((m) => [...m, { from: "user", text: `${t("Uploaded file", "Fichier téléchargé")}: ${file.name}` }]);
-      await talkToRasa(t("file attached", "fichier joint"), {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        data: base64,
-      });
+      await talkToRasa(t("file attached", "fichier joint"), { name: file.name, type: file.type, size: file.size, data: base64 });
       e.target.value = "";
     };
     reader.readAsDataURL(file);
@@ -528,12 +411,7 @@ const Chat = forwardRef<ChatHandle, {
   function startMic(): boolean {
     const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Ctor) {
-      addAssistantText(
-        t(
-          "Your browser doesn't support voice recognition. Please try Chrome desktop.",
-          "Votre navigateur ne supporte pas la reconnaissance vocale. Essayez Chrome sur ordinateur."
-        )
-      );
+      addAssistantText(t("Your browser doesn't support voice recognition. Please try Chrome desktop.", "Votre navigateur ne supporte pas la reconnaissance vocale. Essayez Chrome sur ordinateur."));
       return false;
     }
     try {
@@ -547,20 +425,13 @@ const Chat = forwardRef<ChatHandle, {
           const res = e.results[i];
           const transcript = (res[0]?.transcript || "").trim();
           if (!transcript) continue;
-
-          if (res.isFinal) {
-            setInterim("");
-            sendLocal(transcript);
-          } else {
-            setInterim(transcript);
-            setInput(transcript);
-          }
+          if (res.isFinal) { setInterim(""); sendLocal(transcript); }
+          else { setInterim(transcript); setInput(transcript); }
         }
       };
 
       rec.onerror = () => setVoice(false);
       rec.onend = () => setVoice(false);
-
       recRef.current = rec as TSpeechRecognition;
       rec.start();
       return true;
@@ -587,25 +458,16 @@ const Chat = forwardRef<ChatHandle, {
     }
   }, [voice, lang]);
 
-  const bgStyle: React.CSSProperties = {
-    background: "linear-gradient(180deg, rgba(232,240,255,0.45) 0%, rgba(245,247,251,1) 40%)",
-  };
+  const bgStyle: React.CSSProperties = { background: "linear-gradient(180deg, rgba(232,240,255,0.45) 0%, rgba(245,247,251,1) 40%)" };
 
   return (
     <div className="flex flex-col h-full min-h-0 w-full rounded-3xl overflow-hidden ring-1 ring-blue-100 bg-white/95 shadow-xl">
-      {/* Header */}
+      {/* Header chat */}
       <div className="p-3 sm:p-4 border-b bg-white/80 backdrop-blur">
         <div className="flex items-center gap-2">
-<<<<<<< HEAD
-        <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
-  <img src="public/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
-</div>
-
-=======
           <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
             <img src={chatBotLogo} alt="TMPA" className="w-7 h-7 object-contain" />
           </div>
->>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
           <div>
             <div className="font-semibold text-gray-800 text-sm">{t("Assistant", "Assistant")}</div>
             <div className="text-[11px] text-gray-500">{t("Online – Ready to assist", "En ligne – Prêt à aider")}</div>
@@ -619,47 +481,24 @@ const Chat = forwardRef<ChatHandle, {
           const isAssistant = m.from === "assistant";
           const chips = isAssistant && m.text ? extractChips(m.text, lang) : [];
           return (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className={`w-fit max-w-[80%] p-4 rounded-3xl ${
-                isAssistant
-                  ? "bg-blue-50/70 ring-1 ring-blue-100 border border-blue-200"
-                  : "bg-white ring-1 ring-gray-200 border border-gray-200"
-              } ${!isAssistant ? "ml-auto" : ""} shadow-lg`}
-            >
+            <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
+              className={`w-fit max-w-[80%] p-4 rounded-3xl ${isAssistant ? "bg-blue-50/70 ring-1 ring-blue-100 border border-blue-200" : "bg-white ring-1 ring-gray-200 border border-gray-200"} ${!isAssistant ? "ml-auto" : ""} shadow-lg`}>
               <div className={`text-[11px] mb-1 text-gray-500 flex items-center gap-1 ${!isAssistant ? "justify-end" : ""}`}>
                 {isAssistant ? <Bot size={12} /> : <MessageSquare size={12} />}
                 {isAssistant ? (lang === "EN" ? "Assistant" : "Assistant") : (lang === "EN" ? "You" : "Vous")}
               </div>
-
-              {m.text && (
-                <div className={`text-[14px] text-gray-900 leading-6 whitespace-pre-wrap break-words ${!isAssistant ? "text-right" : ""}`}>
-                  {m.text}
-                </div>
-              )}
-
+              {m.text && <div className={`text-[14px] text-gray-900 leading-6 whitespace-pre-wrap break-words ${!isAssistant ? "text-right" : ""}`}>{m.text}</div>}
               {chips.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {chips.map((c, idx) => {
                     const ChipIcon = c.icon;
-                    return (
-                      <span key={idx} className="inline-flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-full bg-white border">
-                        <ChipIcon size={12} /> {c.label}
-                      </span>
-                    );
+                    return <span key={idx} className="inline-flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-full bg-white border"><ChipIcon size={12} /> {c.label}</span>;
                   })}
                 </div>
               )}
-
               {m.image && (
                 <div className="mt-3">
-                  <button
-                    onClick={() => setImageModal(m.image!)}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border bg-white hover:shadow text-sm"
-                  >
+                  <button onClick={() => setImageModal(m.image!)} className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border bg-white hover:shadow text-sm">
                     <ImageIcon size={16} /> {lang === "EN" ? "View screenshot" : "Voir la capture"}
                   </button>
                 </div>
@@ -670,70 +509,41 @@ const Chat = forwardRef<ChatHandle, {
 
         {thinking && (
           <div className="w-fit max-w-[80%] p-3 rounded-2xl bg-blue-50/70 ring-1 ring-blue-100 border border-blue-200 shadow ml-0">
-            <div className="text-[11px] mb-1 text-gray-500 flex items-center gap-1">
-              <Bot size={12} /> {lang === "EN" ? "Assistant" : "Assistant"}
-            </div>
-            <div className="text-[14px] text-gray-900 leading-6">
-              {lang === "EN" ? "Thinking…" : "Réflexion…"}
-            </div>
+            <div className="text-[11px] mb-1 text-gray-500 flex items-center gap-1"><Bot size={12} /> {lang === "EN" ? "Assistant" : "Assistant"}</div>
+            <div className="text-[14px] text-gray-900 leading-6">{lang === "EN" ? "Thinking…" : "Réflexion…"}</div>
           </div>
         )}
       </div>
 
-      {/* Mini step controls */}
+      {/* Step controls */}
       {totalStepsForUi > 0 && (
         <div className="px-3 sm:px-4 pb-2">
           <div className="w-full rounded-2xl border bg-white shadow-sm p-2 flex items-center gap-2 justify-end">
-            <button onClick={() => sendLocal(lang === "FR" ? "précédent" : "previous")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">
-              {lang === "EN" ? "Prev" : "Précédent"}
-            </button>
-            <button onClick={() => sendLocal(lang === "FR" ? "suivant" : "next")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">
-              {lang === "EN" ? "Next" : "Suivant"}
-            </button>
+            <button onClick={() => sendLocal(lang === "FR" ? "précédent" : "previous")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">{lang === "EN" ? "Prev" : "Précédent"}</button>
+            <button onClick={() => sendLocal(lang === "FR" ? "suivant" : "next")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">{lang === "EN" ? "Next" : "Suivant"}</button>
           </div>
         </div>
       )}
 
       {/* Input */}
       <div className="p-3 sm:p-4 bg-white border-t">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendLocal(input);
-          }}
-          className="flex items-center gap-2"
-        >
+        <form onSubmit={(e) => { e.preventDefault(); sendLocal(input); }} className="flex items-center gap-2">
           <input ref={fileRef} type="file" className="hidden" onChange={onPickFile} />
           <button type="button" className="p-3 rounded-2xl bg-white border shadow-sm hover:shadow" title={t("Attach", "Joindre")} onClick={() => fileRef.current?.click()}>
             <Paperclip size={18} className="text-gray-700" />
           </button>
-
           <div className="flex-1 rounded-2xl bg-gray-50 border shadow-inner px-3 sm:px-4 py-2 flex items-center">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t("Type your message…", "Écrivez votre message…")}
-              className="flex-1 bg-transparent outline-none text-sm"
-            />
+            <input value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("Type your message…", "Écrivez votre message…")} className="flex-1 bg-transparent outline-none text-sm" />
             {voice && (
               <span className="text-[11px] mr-2 px-2 py-1 rounded-full border bg-white">
                 {interim ? (lang === "FR" ? "Dictée…" : "Listening…") : (lang === "FR" ? "Écoute" : "Listening")}
               </span>
             )}
-            <button
-              type="button"
-              onClick={() => setVoice((v) => !v)}
-              className={`ml-2 p-2 rounded-xl border ${voice ? "bg-blue-50 border-blue-200" : "bg-white"} hover:shadow`}
-              title={t("Voice", "Voix")}
-            >
+            <button type="button" onClick={() => setVoice((v) => !v)} className={`ml-2 p-2 rounded-xl border ${voice ? "bg-blue-50 border-blue-200" : "bg-white"} hover:shadow`} title={t("Voice", "Voix")}>
               <Mic size={16} className={voice ? "text-blue-600" : "text-gray-700"} />
             </button>
           </div>
-
-          <button
-            type="submit"
-            className="px-4 py-2 rounded-2xl text-white shadow bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-md inline-flex items-center gap-2"
-          >
+          <button type="submit" className="px-4 py-2 rounded-2xl text-white shadow bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-md inline-flex items-center gap-2">
             <Send size={16} /> {t("Send", "Envoyer")}
           </button>
         </form>
@@ -757,22 +567,16 @@ export default function TMPAEnhancedPortal() {
   const defaultLang = ((import.meta as any)?.env?.VITE_DEFAULT_LANG as Lang) || "EN";
   const [lang, setLang] = useState<Lang>(defaultLang);
   const [collapsed, setCollapsed] = useState(false);
-
   const [flowTitle, setFlowTitle] = useState<string | undefined>(undefined);
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
-
   const [sid, setSid] = useState<string>(getOrCreateSessionId());
-
   const [showHelp, setShowHelp] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
   const chatRef = useRef<{ sendExternal: (message: string) => Promise<void> } | null>(null);
 
-  function handleCopySession(id: string) {
-    try { navigator.clipboard.writeText(id); } catch {}
-  }
+  function handleCopySession(id: string) { try { navigator.clipboard.writeText(id); } catch {} }
   function handleResetSession() {
     const newId = newSessionId();
     localStorage.setItem("tmpa.sessionId", newId);
@@ -783,68 +587,27 @@ export default function TMPAEnhancedPortal() {
     const trigger = rasaTriggerFor(flowId, lang);
     await chatRef.current?.sendExternal(trigger);
   }
-
-  async function exitFlow() {
-    await chatRef.current?.sendExternal("stop");
-  }
+  async function exitFlow() { await chatRef.current?.sendExternal("stop"); }
 
   return (
-    <div
-      className="h-screen w-full overflow-hidden p-2 sm:p-4"
-      style={{ background: "linear-gradient(135deg, #032859 0%, #0B5AC2 45%, #3B82F6 100%)" }}
-    >
+    <div className="h-screen w-full overflow-hidden p-2 sm:p-4" style={{ background: "linear-gradient(135deg, #032859 0%, #0B5AC2 45%, #3B82F6 100%)" }}>
       <style>{`:root{ --brand-blue:${brand.blue}; --blue-soft:${brand.blueSoft}; } body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}`}</style>
 
       <div className="max-w-7xl h-full mx-auto flex flex-col gap-3">
-        <Topbar
-          lang={lang}
-          setLang={setLang}
-          onHelp={() => setShowHelp(true)}
-          onSettings={() => setShowSettings(true)}
-          onProfile={() => setShowProfile(true)}
-        />
+        <Topbar lang={lang} setLang={setLang} onHelp={() => setShowHelp(true)} onSettings={() => setShowSettings(true)} onProfile={() => setShowProfile(true)} />
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_300px] gap-3 flex-1 min-h-0 overflow-hidden">
-          <Sidebar
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
-            onStartFlow={startFlow}
-            lang={lang}
-            onExit={exitFlow}
-          />
-          <Chat
-            ref={chatRef}
-            lang={lang}
-            setActiveStep={setActiveStep}
-            setFlowTitle={setFlowTitle}
-            setTotalSteps={setTotalSteps}
-            totalStepsForUi={totalSteps}
-          />
-          <RightSidebar
-            lang={lang}
-            flowTitle={flowTitle}
-            activeStep={activeStep}
-            totalSteps={totalSteps}
-            sessionIdForUi={sid}
-            onCopySession={handleCopySession}
-            onResetSession={handleResetSession}
-          />
+          <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} onStartFlow={startFlow} lang={lang} onExit={exitFlow} />
+          <Chat ref={chatRef} lang={lang} setActiveStep={setActiveStep} setFlowTitle={setFlowTitle} setTotalSteps={setTotalSteps} totalStepsForUi={totalSteps} />
+          <RightSidebar lang={lang} flowTitle={flowTitle} activeStep={activeStep} totalSteps={totalSteps} sessionIdForUi={sid} onCopySession={handleCopySession} onResetSession={handleResetSession} />
         </div>
       </div>
 
       {showHelp && (
         <Modal title={lang === "EN" ? "Help" : "Aide"} onClose={() => setShowHelp(false)}>
           <div className="space-y-2 text-sm text-gray-700">
-            <p>
-              {lang === "EN"
-                ? "Use the Quick actions on the left to start guided workflows (Supplier Registration, Work Confirmation, Invoicing…). Type your questions in the chat."
-                : "Utilisez les Actions rapides à gauche pour démarrer des parcours guidés (Référencement fournisseur, Confirmation de travaux, Facturation…). Écrivez vos questions dans le chat."}
-            </p>
-            <p>
-              {lang === "EN"
-                ? "Say 'next' / 'previous' to navigate steps. Attach files with the paperclip."
-                : "Dites 'suivant' / 'précédent' pour naviguer. Joignez des fichiers avec l’icône trombone."}
-            </p>
+            <p>{lang === "EN" ? "Use the Quick actions on the left to start guided workflows (Supplier Registration, Work Confirmation, Invoicing…). Type your questions in the chat." : "Utilisez les Actions rapides à gauche pour démarrer des parcours guidés (Référencement fournisseur, Confirmation de travaux, Facturation…). Écrivez vos questions dans le chat."}</p>
+            <p>{lang === "EN" ? "Say 'next' / 'previous' to navigate steps. Attach files with the paperclip." : "Dites 'suivant' / 'précédent' pour naviguer. Joignez des fichiers avec l’icône trombone."}</p>
           </div>
         </Modal>
       )}
@@ -854,20 +617,11 @@ export default function TMPAEnhancedPortal() {
           <div className="space-y-3 text-sm text-gray-700">
             <div className="flex items-center justify-between">
               <span>{lang === "EN" ? "Language" : "Langue"}</span>
-              <button className="px-3 py-1.5 rounded-lg border hover:bg-gray-50" onClick={() => setLang(lang === "EN" ? "FR" : "EN")}>
-                {lang}
-              </button>
+              <button className="px-3 py-1.5 rounded-lg border hover:bg-gray-50" onClick={() => setLang(lang === "EN" ? "FR" : "EN")}>{lang}</button>
             </div>
             <div className="flex items-center justify-between">
               <span>{lang === "EN" ? "Reset session" : "Réinitialiser la session"}</span>
-              <button
-                className="px-3 py-1.5 rounded-lg border hover:bg-gray-50"
-                onClick={() => {
-                  const id = newSessionId();
-                  localStorage.setItem("tmpa.sessionId", id);
-                  setSid(id);
-                }}
-              >
+              <button className="px-3 py-1.5 rounded-lg border hover:bg-gray-50" onClick={() => { const id = newSessionId(); localStorage.setItem("tmpa.sessionId", id); setSid(id); }}>
                 {lang === "EN" ? "Reset" : "Réinitialiser"}
               </button>
             </div>
@@ -878,14 +632,8 @@ export default function TMPAEnhancedPortal() {
       {showProfile && (
         <Modal title={lang === "EN" ? "Profile" : "Profil"} onClose={() => setShowProfile(false)}>
           <div className="space-y-2 text-sm text-gray-700">
-            <div className="flex items-center gap-2">
-              <UserCircle2 /> <span className="font-medium">{lang === "EN" ? "Supplier user" : "Utilisateur fournisseur"}</span>
-            </div>
-            <div className="text-xs text-gray-500">
-              {lang === "EN"
-                ? "Your chat session ID is shown in the right panel."
-                : "Votre ID de session de chat s’affiche dans le panneau de droite."}
-            </div>
+            <div className="flex items-center gap-2"><UserCircle2 /> <span className="font-medium">{lang === "EN" ? "Supplier user" : "Utilisateur fournisseur"}</span></div>
+            <div className="text-xs text-gray-500">{lang === "EN" ? "Your chat session ID is shown in the right panel." : "Votre ID de session de chat s’affiche dans le panneau de droite."}</div>
           </div>
         </Modal>
       )}
