@@ -31,9 +31,15 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
+<<<<<<< HEAD
+=======
+/** Build a GitHub-Pages-safe URL for items that Rasa may return as relative paths */
+>>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
 const asset = (p: string) =>
   `${import.meta.env.BASE_URL}${p.replace(/^\/+/, "")}`;
 
+import tmLogo from "./assets/tm-logo.png";
+import chatBotLogo from "./assets/chat_bot_logo.png";
 
 type TSpeechRecognition = {
   lang: string;
@@ -54,26 +60,15 @@ declare global {
 
 /* =========================================================
    Tanger Med – iSupplier Assistant (Rasa-wired, refined)
-   - Functional fixes only (layout/size unchanged)
-   - Help/Settings/Profile modals working
-   - Quick Actions push to chat + call Rasa
-   - Sidebar session block removed
-   - Prev/Next from chat now work and show user bubble
-   - Follow-up % clamped and updated via "Step X/Y"
-   - "Thinking…" loader while awaiting Rasa
-   - Voice input (Web Speech API) FR/EN
    ========================================================= */
 
 type Lang = "EN" | "FR";
 type IconType = React.ComponentType<{ size?: number; className?: string }>;
 type RasaReply = { text?: string; image?: string; custom?: any };
 
-
-
 const RASA_URL = ((import.meta as any)?.env?.VITE_RASA_URL ?? "http://localhost:5005").replace(/\/$/, "");
 const TOKEN = (import.meta as any)?.env?.VITE_RASA_TOKEN ?? "";
 const RASA_WEBHOOK = RASA_URL + "/webhooks/rest/webhook" + (TOKEN ? `?token=${encodeURIComponent(TOKEN)}` : "");
-
 
 const brand = {
   blue: "#0B5AC2",
@@ -87,8 +82,8 @@ function getOrCreateSessionId(): string {
   return id;
 }
 function newSessionId(): string {
-  if (crypto?.randomUUID) return crypto.randomUUID();             // modern browsers
-  const a = new Uint8Array(16); crypto.getRandomValues(a);        // fallback
+  if (crypto?.randomUUID) return crypto.randomUUID();
+  const a = new Uint8Array(16); crypto.getRandomValues(a);
   return [...a].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
@@ -117,62 +112,26 @@ async function sendToRasa(args: { message: string; metadata?: Record<string, any
 /* ---------- Flows (sidebar) ---------- */
 type Flow = { id: string; label: string; priority: "primary" | "secondary" };
 const flows: Record<string, Flow> = {
-  supplierRegistration: {
-    id: "supplierRegistration",
-    label: "Supplier Registration",
-    priority: "primary",
-  },
-  forgotPassword: {
-    id: "forgotPassword",
-    label: "Assistance / Forgot Password",
-    priority: "secondary",
-  },
-  workConfirmation: {
-    id: "workConfirmation",
-    label: "Work Confirmation",
-    priority: "primary",
-  },
-  invoiceCreation: {
-    id: "invoiceCreation",
-    label: "Create Invoice (with PO)",
-    priority: "primary",
-  },
-  viewInvoices: {
-    id: "viewInvoices",
-    label: "View Invoices / Status",
-    priority: "secondary",
-  },
-  viewPayments: {
-    id: "viewPayments",
-    label: "View Payments",
-    priority: "secondary",
-  },
-  resolveHolds: {
-    id: "resolveHolds",
-    label: "Resolve Invoice Holds",
-    priority: "secondary",
-  },
+  supplierRegistration: { id: "supplierRegistration", label: "Supplier Registration", priority: "primary" },
+  forgotPassword: { id: "forgotPassword", label: "Assistance / Forgot Password", priority: "secondary" },
+  workConfirmation: { id: "workConfirmation", label: "Work Confirmation", priority: "primary" },
+  invoiceCreation: { id: "invoiceCreation", label: "Create Invoice (with PO)", priority: "primary" },
+  viewInvoices: { id: "viewInvoices", label: "View Invoices / Status", priority: "secondary" },
+  viewPayments: { id: "viewPayments", label: "View Payments", priority: "secondary" },
+  resolveHolds: { id: "resolveHolds", label: "Resolve Invoice Holds", priority: "secondary" },
 };
 
 function rasaTriggerFor(flowId: string, lang: Lang) {
   const fr = lang === "FR";
   switch (flowId) {
-    case "supplierRegistration":
-      return fr ? "référencement fournisseur" : "supplier registration";
-    case "forgotPassword":
-      return fr ? "mot de passe oublié" : "reset password";
-    case "workConfirmation":
-      return fr ? "confirmation travaux" : "work confirmation";
-    case "invoiceCreation":
-      return fr ? "créer facture" : "create invoice";
-    case "viewInvoices":
-      return fr ? "détails facture" : "invoice details";
-    case "viewPayments":
-      return fr ? "statut paiement" : "payment status";
-    case "resolveHolds":
-      return fr ? "factures en attente" : "pending invoices";
-    default:
-      return fr ? "aide" : "help";
+    case "supplierRegistration": return fr ? "référencement fournisseur" : "supplier registration";
+    case "forgotPassword":      return fr ? "mot de passe oublié" : "reset password";
+    case "workConfirmation":    return fr ? "confirmation travaux" : "work confirmation";
+    case "invoiceCreation":     return fr ? "créer facture" : "create invoice";
+    case "viewInvoices":        return fr ? "détails facture" : "invoice details";
+    case "viewPayments":        return fr ? "statut paiement" : "payment status";
+    case "resolveHolds":        return fr ? "factures en attente" : "pending invoices";
+    default:                    return fr ? "aide" : "help";
   }
 }
 
@@ -206,10 +165,7 @@ const Modal: React.FC<{
   children: React.ReactNode;
 }> = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50">
-    <div
-      className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-      onClick={onClose}
-    />
+    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
     <div className="relative mx-auto my-6 w-[92vw] max-w-3xl rounded-2xl bg-white shadow-xl border ring-1 ring-blue-100">
       <div className="flex items-center justify-between px-4 py-3 border-b">
         <div className="text-sm font-semibold text-gray-700">{title}</div>
@@ -234,7 +190,11 @@ const Topbar: React.FC<{
     {/* LEFT: bigger logo */}
     <div className="flex items-center gap-3">
       <img
+<<<<<<< HEAD
         src="public/tm-logo.png"
+=======
+        src={tmLogo}
+>>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
         alt="Tanger Med Port Authority"
         className="h-12 sm:h-14 w-auto object-contain"
       />
@@ -243,12 +203,7 @@ const Topbar: React.FC<{
     {/* CENTER: title */}
     <div className="absolute inset-x-0 flex items-center justify-center px-28 pointer-events-none">
       <h1
-        className="
-          font-inter font-semibold
-          text-neutral-900
-          text-[14px] sm:text-[15px] md:text-[17px]
-          leading-[1.1] tracking-wide text-center whitespace-nowrap
-        "
+        className="font-inter font-semibold text-neutral-900 text-[14px] sm:text-[15px] md:text-[17px] leading-[1.1] tracking-wide text-center whitespace-nowrap"
         style={{ letterSpacing: "0.02em" }}
       >
         Oracle EBS Assistant – Tanger Med i-Supplier Portal
@@ -257,32 +212,16 @@ const Topbar: React.FC<{
 
     {/* RIGHT: controls */}
     <div className="ml-auto flex items-center gap-2">
-      <button
-        onClick={() => setLang(lang === "EN" ? "FR" : "EN")}
-        className="p-2 rounded-xl border hover:bg-gray-50"
-        title="Language"
-      >
+      <button onClick={() => setLang(lang === "EN" ? "FR" : "EN")} className="p-2 rounded-xl border hover:bg-gray-50" title="Language">
         <Globe size={18} />
       </button>
-      <button
-        onClick={onHelp}
-        className="p-2 rounded-xl border hover:bg-gray-50"
-        title="Help"
-      >
+      <button onClick={onHelp} className="p-2 rounded-xl border hover:bg-gray-50" title="Help">
         <HelpCircle size={18} />
       </button>
-      <button
-        onClick={onSettings}
-        className="p-2 rounded-xl border hover:bg-gray-50"
-        title="Settings"
-      >
+      <button onClick={onSettings} className="p-2 rounded-xl border hover:bg-gray-50" title="Settings">
         <Settings size={18} />
       </button>
-      <button
-        onClick={onProfile}
-        className="p-2 rounded-xl border hover:bg-gray-50"
-        title="Profile"
-      >
+      <button onClick={onProfile} className="p-2 rounded-xl border hover:bg-gray-50" title="Profile">
         <UserCircle2 size={18} />
       </button>
     </div>
@@ -299,15 +238,9 @@ const Sidebar: React.FC<{
 }> = ({ collapsed, setCollapsed, onStartFlow, lang, onExit }) => {
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
   const groups = [
-    {
-      title: t("ACCESS & SUPPORT", "ACCÈS & AIDE"),
-      items: ["supplierRegistration", "forgotPassword"],
-    },
+    { title: t("ACCESS & SUPPORT", "ACCÈS & AIDE"), items: ["supplierRegistration", "forgotPassword"] },
     { title: t("WORK", "TRAVAUX"), items: ["workConfirmation"] },
-    {
-      title: t("FINANCE", "FINANCES"),
-      items: ["invoiceCreation", "viewInvoices", "viewPayments", "resolveHolds"],
-    },
+    { title: t("FINANCE", "FINANCES"), items: ["invoiceCreation", "viewInvoices", "viewPayments", "resolveHolds"] },
   ];
 
   return (
@@ -324,12 +257,9 @@ const Sidebar: React.FC<{
         {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </button>
 
-      {/* Top label */}
       {!collapsed && (
         <div className="mb-3">
-          <div className="text-[12px] font-semibold text-gray-600">
-            Quick actions
-          </div>
+          <div className="text-[12px] font-semibold text-gray-600">Quick actions</div>
           <div className="mt-2 h-px bg-gray-200" />
         </div>
       )}
@@ -338,19 +268,12 @@ const Sidebar: React.FC<{
         {groups.map((g, gi) => (
           <div key={gi}>
             {!collapsed && (
-              <div className="text-[11px] font-semibold text-gray-500 mb-2">
-                {g.title}
-              </div>
+              <div className="text-[11px] font-semibold text-gray-500 mb-2">{g.title}</div>
             )}
-            <div
-              className={`flex ${
-                collapsed ? "flex-col items-center" : "flex-col"
-              } gap-2`}
-            >
+            <div className={`flex ${collapsed ? "flex-col items-center" : "flex-col"} gap-2`}>
               {g.items.map((id) => {
                 const f = flows[id];
-                const Icon: IconType =
-                  f.priority === "primary" ? FileSignature : Receipt;
+                const Icon: IconType = f.priority === "primary" ? FileSignature : Receipt;
                 return (
                   <PillButton
                     key={id}
@@ -367,14 +290,10 @@ const Sidebar: React.FC<{
         ))}
       </div>
 
-      {/* Removed the old "SESSION" block here as requested */}
-
       <div className="mt-auto">
         <button
           onClick={onExit}
-          className={`w-full mt-3 ${
-            collapsed ? "px-2 py-2" : "px-3 py-3"
-          } rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow hover:shadow-md text-sm`}
+          className={`w-full mt-3 ${collapsed ? "px-2 py-2" : "px-3 py-3"} rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow hover:shadow-md text-sm`}
         >
           {t("EXIT FLOW", "QUITTER LE FLUX")}
         </button>
@@ -388,10 +307,7 @@ const VerticalProgress: React.FC<{ value?: number }> = ({ value = 0 }) => {
   const safe = Math.max(0, Math.min(100, Math.round(value)));
   return (
     <div className="h-40 w-4 rounded-full bg-gray-200 relative overflow-hidden border">
-      <div
-        className="absolute bottom-0 left-0 right-0 bg-[var(--brand-blue)]"
-        style={{ height: `${safe}%` }}
-      />
+      <div className="absolute bottom-0 left-0 right-0 bg-[var(--brand-blue)]" style={{ height: `${safe}%` }} />
     </div>
   );
 };
@@ -416,8 +332,7 @@ const RightSidebar: React.FC<{
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
 
   const pct = useMemo(() => {
-    if (totalSteps > 0)
-      return Math.min(100, Math.round(((activeStep + 1) / totalSteps) * 100));
+    if (totalSteps > 0) return Math.min(100, Math.round(((activeStep + 1) / totalSteps) * 100));
     return 0;
   }, [activeStep, totalSteps]);
 
@@ -431,56 +346,38 @@ const RightSidebar: React.FC<{
   return (
     <div className="w-[300px] h-full min-h-0 shrink-0 bg-white/95 rounded-3xl p-3 space-y-3 ring-1 ring-blue-100 shadow-xl flex flex-col">
       <div>
-        <div className="text-sm font-semibold text-gray-700 mb-2">
-          {t("Follow-up", "Suivi")}
-        </div>
+        <div className="text-sm font-semibold text-gray-700 mb-2">{t("Follow-up", "Suivi")}</div>
         <div className="flex items-end gap-3">
           <VerticalProgress value={pct} />
           <div>
             <div className="text-xl font-bold">{pct}%</div>
             <div className="text-xs text-gray-500">
-              {totalSteps > 0
-                ? `${t("Step", "Étape")} ${activeStep + 1}/${totalSteps}`
-                : t("No active workflow", "Aucun workflow actif")}
+              {totalSteps > 0 ? `${t("Step", "Étape")} ${activeStep + 1}/${totalSteps}` : t("No active workflow", "Aucun workflow actif")}
             </div>
           </div>
         </div>
         {flowTitle && (
           <div className="mt-2 text-xs text-gray-600">
-            <span className="font-semibold">{t("Flow:", "Parcours :")}</span>{" "}
-            {flowTitle}
+            <span className="font-semibold">{t("Flow:", "Parcours :")}</span> {flowTitle}
           </div>
         )}
       </div>
 
-      {/* Session block */}
       <div className="pt-2 border-t">
-        <div className="text-sm font-semibold text-gray-700 mb-2">
-          {t("Session", "Session")}
-        </div>
+        <div className="text-sm font-semibold text-gray-700 mb-2">{t("Session", "Session")}</div>
         <div className="flex items-center gap-2">
-          <div className="px-2 py-1 rounded-md bg-gray-100 text-xs text-gray-700 select-all">
-            {shortSid}
-          </div>
-          <button
-            onClick={() => onCopySession(sessionIdForUi)}
-            className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50"
-          >
+          <div className="px-2 py-1 rounded-md bg-gray-100 text-xs text-gray-700 select-all">{shortSid}</div>
+          <button onClick={() => onCopySession(sessionIdForUi)} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">
             {t("Copy", "Copier")}
           </button>
-          <button
-            onClick={onResetSession}
-            className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50"
-          >
+          <button onClick={onResetSession} className="px-2 py-1 rounded-md border text-xs hover:bg-gray-50">
             {t("Reset", "Réinitialiser")}
           </button>
         </div>
       </div>
 
       <div className="pt-2 border-t">
-        <div className="text-sm font-semibold text-gray-700 mb-2">
-          {t("Alerts", "Alertes")}
-        </div>
+        <div className="text-sm font-semibold text-gray-700 mb-2">{t("Alerts", "Alertes")}</div>
         <ul className="space-y-2 text-xs text-gray-700">
           <li>• {t("Invoice on hold – VAT mismatch", "Facture en attente – incohérence TVA")}</li>
           <li>• {t("2 POs await acknowledgment", "2 BC en attente d'accusé")}</li>
@@ -535,7 +432,7 @@ const Chat = forwardRef<ChatHandle, {
   const t = (en: string, fr: string) => (lang === "EN" ? en : fr);
   const [input, setInput] = useState("");
   const [voice, setVoice] = useState(false);
-  const [interim, setInterim] = useState("");           // texte intérimaire micro
+  const [interim, setInterim] = useState("");
   const [thinking, setThinking] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
     {
@@ -549,10 +446,8 @@ const Chat = forwardRef<ChatHandle, {
   const [imageModal, setImageModal] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
-  // ref du moteur de reconnaissance
   const recRef = useRef<TSpeechRecognition | null>(null);
 
-  // scroll container
   const listRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const el = listRef.current;
@@ -562,6 +457,9 @@ const Chat = forwardRef<ChatHandle, {
   function addAssistantText(text: string) {
     setMessages((m) => [...m, { from: "assistant", text }]);
   }
+
+  const normalizeImage = (u: string) =>
+    /^(https?:)?\/\//i.test(u) ? u : asset(u.replace(/^\/+/, ""));
 
   async function talkToRasa(utter: string, attachment?: { name: string; type: string; size: number; data: string }) {
     try {
@@ -576,12 +474,13 @@ const Chat = forwardRef<ChatHandle, {
           addAssistantText(r.text);
         }
         if (r.image) {
+          const url = normalizeImage(r.image);
           setMessages((m) => [
             ...m,
             {
               from: "assistant",
               text: t("A screenshot is available for this step.", "Une capture est disponible pour cette étape."),
-              image: r.image,
+              image: url,
             },
           ]);
         }
@@ -602,7 +501,6 @@ const Chat = forwardRef<ChatHandle, {
     await talkToRasa(clean);
   }
 
-  // expose to parent: used by Quick Actions
   useImperativeHandle(ref, () => ({
     sendExternal: async (message: string) => {
       await sendLocal(message);
@@ -627,7 +525,6 @@ const Chat = forwardRef<ChatHandle, {
     reader.readAsDataURL(file);
   }
 
-  /* ------------ Voice: start/stop & bindings ------------- */
   function startMic(): boolean {
     const Ctor = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Ctor) {
@@ -653,7 +550,6 @@ const Chat = forwardRef<ChatHandle, {
 
           if (res.isFinal) {
             setInterim("");
-            // envoi comme si l'utilisateur avait tapé
             sendLocal(transcript);
           } else {
             setInterim(transcript);
@@ -662,12 +558,8 @@ const Chat = forwardRef<ChatHandle, {
         }
       };
 
-      rec.onerror = () => {
-        setVoice(false);
-      };
-      rec.onend = () => {
-        setVoice(false);
-      };
+      rec.onerror = () => setVoice(false);
+      rec.onend = () => setVoice(false);
 
       recRef.current = rec as TSpeechRecognition;
       rec.start();
@@ -680,11 +572,7 @@ const Chat = forwardRef<ChatHandle, {
 
   function stopMic() {
     const rec = recRef.current as TSpeechRecognition | null;
-    try {
-      rec?.stop();
-    } catch {
-      /* noop */
-    }
+    try { rec?.stop(); } catch {}
     recRef.current = null;
     setInterim("");
   }
@@ -697,7 +585,6 @@ const Chat = forwardRef<ChatHandle, {
     } else {
       stopMic();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [voice, lang]);
 
   const bgStyle: React.CSSProperties = {
@@ -709,10 +596,16 @@ const Chat = forwardRef<ChatHandle, {
       {/* Header */}
       <div className="p-3 sm:p-4 border-b bg-white/80 backdrop-blur">
         <div className="flex items-center gap-2">
+<<<<<<< HEAD
         <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
   <img src="public/chat_bot_logo.png" alt="TMPA" className="w-7 h-7 object-contain" />
 </div>
 
+=======
+          <div className="w-8 h-8 rounded-full bg-white ring-1 ring-blue-200 grid place-items-center overflow-hidden">
+            <img src={chatBotLogo} alt="TMPA" className="w-7 h-7 object-contain" />
+          </div>
+>>>>>>> c8f85b77833d670263b7f683a87cf95ffb724805
           <div>
             <div className="font-semibold text-gray-800 text-sm">{t("Assistant", "Assistant")}</div>
             <div className="text-[11px] text-gray-500">{t("Online – Ready to assist", "En ligne – Prêt à aider")}</div>
@@ -720,7 +613,7 @@ const Chat = forwardRef<ChatHandle, {
         </div>
       </div>
 
-      {/* Messages (scrollable) */}
+      {/* Messages */}
       <div ref={listRef} className="flex-1 min-h-0 px-3 sm:px-4 py-3 space-y-3 overflow-y-auto" style={bgStyle}>
         {messages.map((m, i) => {
           const isAssistant = m.from === "assistant";
@@ -748,7 +641,6 @@ const Chat = forwardRef<ChatHandle, {
                 </div>
               )}
 
-              {/* chips (actions) */}
               {chips.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {chips.map((c, idx) => {
@@ -762,7 +654,6 @@ const Chat = forwardRef<ChatHandle, {
                 </div>
               )}
 
-              {/* Optional screenshot button */}
               {m.image && (
                 <div className="mt-3">
                   <button
@@ -777,8 +668,7 @@ const Chat = forwardRef<ChatHandle, {
           );
         })}
 
-        {/* Thinking indicator */}
-        {thinking && 
+        {thinking && (
           <div className="w-fit max-w-[80%] p-3 rounded-2xl bg-blue-50/70 ring-1 ring-blue-100 border border-blue-200 shadow ml-0">
             <div className="text-[11px] mb-1 text-gray-500 flex items-center gap-1">
               <Bot size={12} /> {lang === "EN" ? "Assistant" : "Assistant"}
@@ -787,25 +677,17 @@ const Chat = forwardRef<ChatHandle, {
               {lang === "EN" ? "Thinking…" : "Réflexion…"}
             </div>
           </div>
-        }
+        )}
       </div>
 
-      {/* Mini step controls (sticky inside chat bottom) */}
+      {/* Mini step controls */}
       {totalStepsForUi > 0 && (
         <div className="px-3 sm:px-4 pb-2">
           <div className="w-full rounded-2xl border bg-white shadow-sm p-2 flex items-center gap-2 justify-end">
-            <button
-              onClick={() => sendLocal(lang === "FR" ? "précédent" : "previous")}
-              className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm"
-              type="button"
-            >
+            <button onClick={() => sendLocal(lang === "FR" ? "précédent" : "previous")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">
               {lang === "EN" ? "Prev" : "Précédent"}
             </button>
-            <button
-              onClick={() => sendLocal(lang === "FR" ? "suivant" : "next")}
-              className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm"
-              type="button"
-            >
+            <button onClick={() => sendLocal(lang === "FR" ? "suivant" : "next")} className="px-3 py-1.5 rounded-xl border hover:bg-gray-50 text-sm" type="button">
               {lang === "EN" ? "Next" : "Suivant"}
             </button>
           </div>
@@ -822,12 +704,7 @@ const Chat = forwardRef<ChatHandle, {
           className="flex items-center gap-2"
         >
           <input ref={fileRef} type="file" className="hidden" onChange={onPickFile} />
-          <button
-            type="button"
-            className="p-3 rounded-2xl bg-white border shadow-sm hover:shadow"
-            title={t("Attach", "Joindre")}
-            onClick={() => fileRef.current?.click()}
-          >
+          <button type="button" className="p-3 rounded-2xl bg-white border shadow-sm hover:shadow" title={t("Attach", "Joindre")} onClick={() => fileRef.current?.click()}>
             <Paperclip size={18} className="text-gray-700" />
           </button>
 
@@ -838,7 +715,6 @@ const Chat = forwardRef<ChatHandle, {
               placeholder={t("Type your message…", "Écrivez votre message…")}
               className="flex-1 bg-transparent outline-none text-sm"
             />
-            {/* petit indicateur d’écoute */}
             {voice && (
               <span className="text-[11px] mr-2 px-2 py-1 rounded-full border bg-white">
                 {interim ? (lang === "FR" ? "Dictée…" : "Listening…") : (lang === "FR" ? "Écoute" : "Listening")}
@@ -882,28 +758,20 @@ export default function TMPAEnhancedPortal() {
   const [lang, setLang] = useState<Lang>(defaultLang);
   const [collapsed, setCollapsed] = useState(false);
 
-  // progress metadata parsed from Rasa header
   const [flowTitle, setFlowTitle] = useState<string | undefined>(undefined);
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
 
-  // Session id for UI
   const [sid, setSid] = useState<string>(getOrCreateSessionId());
 
-  // Help / Settings / Profile modals
   const [showHelp, setShowHelp] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  // Ref to call Chat from sidebar quick actions
   const chatRef = useRef<{ sendExternal: (message: string) => Promise<void> } | null>(null);
 
   function handleCopySession(id: string) {
-    try {
-      navigator.clipboard.writeText(id);
-    } catch {
-      /* noop */
-    }
+    try { navigator.clipboard.writeText(id); } catch {}
   }
   function handleResetSession() {
     const newId = newSessionId();
@@ -918,16 +786,12 @@ export default function TMPAEnhancedPortal() {
 
   async function exitFlow() {
     await chatRef.current?.sendExternal("stop");
-    // UI will naturally reset as the bot answers; we keep layout unchanged.
   }
 
   return (
     <div
       className="h-screen w-full overflow-hidden p-2 sm:p-4"
-      style={{
-        background:
-          "linear-gradient(135deg, #032859 0%, #0B5AC2 45%, #3B82F6 100%)",
-      }}
+      style={{ background: "linear-gradient(135deg, #032859 0%, #0B5AC2 45%, #3B82F6 100%)" }}
     >
       <style>{`:root{ --brand-blue:${brand.blue}; --blue-soft:${brand.blueSoft}; } body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}`}</style>
 
@@ -940,7 +804,6 @@ export default function TMPAEnhancedPortal() {
           onProfile={() => setShowProfile(true)}
         />
 
-        {/* Fill remaining height; only chat scrolls */}
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr_300px] gap-3 flex-1 min-h-0 overflow-hidden">
           <Sidebar
             collapsed={collapsed}
@@ -969,7 +832,6 @@ export default function TMPAEnhancedPortal() {
         </div>
       </div>
 
-      {/* Help / Settings / Profile Modals */}
       {showHelp && (
         <Modal title={lang === "EN" ? "Help" : "Aide"} onClose={() => setShowHelp(false)}>
           <div className="space-y-2 text-sm text-gray-700">
@@ -992,10 +854,7 @@ export default function TMPAEnhancedPortal() {
           <div className="space-y-3 text-sm text-gray-700">
             <div className="flex items-center justify-between">
               <span>{lang === "EN" ? "Language" : "Langue"}</span>
-              <button
-                className="px-3 py-1.5 rounded-lg border hover:bg-gray-50"
-                onClick={() => setLang(lang === "EN" ? "FR" : "EN")}
-              >
+              <button className="px-3 py-1.5 rounded-lg border hover:bg-gray-50" onClick={() => setLang(lang === "EN" ? "FR" : "EN")}>
                 {lang}
               </button>
             </div>
@@ -1020,10 +879,7 @@ export default function TMPAEnhancedPortal() {
         <Modal title={lang === "EN" ? "Profile" : "Profil"} onClose={() => setShowProfile(false)}>
           <div className="space-y-2 text-sm text-gray-700">
             <div className="flex items-center gap-2">
-              <UserCircle2 />{" "}
-              <span className="font-medium">
-                {lang === "EN" ? "Supplier user" : "Utilisateur fournisseur"}
-              </span>
+              <UserCircle2 /> <span className="font-medium">{lang === "EN" ? "Supplier user" : "Utilisateur fournisseur"}</span>
             </div>
             <div className="text-xs text-gray-500">
               {lang === "EN"
