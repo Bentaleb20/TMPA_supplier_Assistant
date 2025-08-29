@@ -31,7 +31,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Build a GitHub-Pages-safe URL for anything in tmpa-isupplier/public/
 import tmLogo from "./assets/tm-logo.png";
 import chatBotLogo from "./assets/chat_bot_logo.png";
 
