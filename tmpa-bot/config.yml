@@ -1,0 +1,25 @@
+# config.yml (extrait pertinent)
+recipe: default.v1
+language: "fr"
+
+pipeline:
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: char_wb
+  min_ngram: 3
+  max_ngram: 5
+- name: DIETClassifier
+  epochs: 120
+- name: EntitySynonymMapper
+- name: ResponseSelector             # <— important pour le FAQ Retrieval
+  epochs: 120
+- name: FallbackClassifier
+  threshold: 0.3
+  ambiguity_threshold: 0.1
+
+policies:
+- name: RulePolicy
+assistant_id: 20250827-021533-chilly-log

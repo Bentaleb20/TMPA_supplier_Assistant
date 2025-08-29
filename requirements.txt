@@ -1,0 +1,36 @@
+# TMPA iSupplier Project - Complete Requirements
+
+# Frontend Dependencies (Node.js/React)
+# To install: npm install
+framer-motion@^12.23.12
+lucide-react@^0.540.0
+react@^19.1.1
+react-dom@^19.1.1
+
+# Frontend Dev Dependencies
+@eslint/js@^9.33.0
+@types/react@^19.1.10
+@types/react-dom@^19.1.7
+@vitejs/plugin-react-swc@^4.0.0
+autoprefixer@^10.4.21
+eslint@^9.33.0
+eslint-plugin-react-hooks@^5.2.0
+eslint-plugin-react-refresh@^0.4.20
+globals@^16.3.0
+postcss@^8.5.6
+tailwindcss@^3.4.13
+typescript@~5.8.3
+typescript-eslint@^8.39.1
+vite@^7.1.2
+
+# Backend Dependencies (Python/Rasa)
+# To install: pip install -r requirements.txt
+rasa==3.1.0
+rasa-sdk==3.1.0
+sqlalchemy==1.4.46
+typing-extensions>=3.7.4
+
+# System Dependencies
+Node.js (version 16 or higher)
+Python (version 3.9)
+sqlalchemy==1.4.46

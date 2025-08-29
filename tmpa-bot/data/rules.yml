@@ -1,0 +1,55 @@
+version: "3.1"
+rules:
+
+# Welcome
+- rule: welcome
+  steps:
+    - intent: welcome.start
+    - action: utter_welcome
+
+# Route all iSupplier flows to your router action
+- rule: route isupplier flows
+  steps:
+    - or:
+      - intent: referencement_fournisseur.start
+      - intent: referencement_fournisseur.step_1
+      - intent: referencement_fournisseur.step_2
+      - intent: referencement_fournisseur.step_3
+      - intent: referencement_fournisseur.step_4
+      - intent: referencement_fournisseur.step_5
+      - intent: reset_password.start
+      - intent: reset_password.step_1
+      - intent: reset_password.step_2
+      - intent: reset_password.step_3
+      - intent: reset_password.step_4
+      - intent: soumission_offre_voir_offre.step_1
+      - intent: soumission_offre_discussion_en_ligne.step_1
+      - intent: soumission_offre_remplir_entete.step_1
+      - intent: soumission_offre_remplir_lignes.step_1
+      - intent: confirmation_travaux.step_1
+      - intent: facturation_saisir_facture_travaux.step_1
+      - intent: facturation_details.step_1
+    - action: action_route_isupplier
+
+# Next / Back / Stop
+- rule: next step
+  steps:
+    - intent: ask_next_step
+    - action: action_next_step
+
+- rule: back step (mapped on 'deny')
+  steps:
+    - intent: deny
+    - action: action_back_step
+
+- rule: stop flow
+  steps:
+    - intent: stop
+    - action: action_reset_flow
+    - action: utter_cancelled
+
+# ONE rule for all FAQ retrieval intents (Rasa 3.x → use utter_faq)
+- rule: answer FAQ
+  steps:
+    - intent: faq
+    - action: utter_faq

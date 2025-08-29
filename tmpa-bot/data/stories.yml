@@ -1,0 +1,103 @@
+version: "3.1"
+stories:
+
+# Small talk example (kept, but minimal)
+- story: greet -> smalltalk
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- story: welcome start
+  steps:
+    - intent: welcome.start
+    - action: utter_welcome
+
+# Supplier Registration
+- story: supplier registration simple
+  steps:
+    - intent: referencement_fournisseur.start
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+    - intent: ask_next_step
+    - action: action_next_step
+
+- story: supplier registration back then next
+  steps:
+    - intent: referencement_fournisseur.start
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+    - intent: deny
+    - action: action_back_step
+    - intent: ask_next_step
+    - action: action_next_step
+
+- story: supplier registration cancel
+  steps:
+    - intent: referencement_fournisseur.start
+    - action: action_route_isupplier
+    - intent: stop
+    - action: action_reset_flow
+    - action: utter_cancelled
+
+# Reset Password
+- story: reset password
+  steps:
+    - intent: reset_password.start
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+
+# RFQ view / discussion / header+lines
+- story: RFQ view offer
+  steps:
+    - intent: soumission_offre_voir_offre.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+
+- story: RFQ discussion
+  steps:
+    - intent: soumission_offre_discussion_en_ligne.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+
+- story: RFQ header and lines
+  steps:
+    - intent: soumission_offre_remplir_entete.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+    - intent: soumission_offre_remplir_lignes.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+
+# Work Confirmation
+- story: work confirmation
+  steps:
+    - intent: confirmation_travaux.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+    - intent: ask_next_step
+    - action: action_next_step
+
+# Invoice create / details
+- story: invoice create with PO
+  steps:
+    - intent: facturation_saisir_facture_travaux.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step
+    - intent: ask_next_step
+    - action: action_next_step
+
+- story: invoice details
+  steps:
+    - intent: facturation_details.step_1
+    - action: action_route_isupplier
+    - intent: ask_next_step
+    - action: action_next_step

@@ -1,0 +1,760 @@
+version: "3.1"
+
+nlu:
+# ---------------------------
+# Small talk / generic intents
+# ---------------------------
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - ok
+    - d'accord
+    - oui
+    - ouii
+    - okay
+    - yep
+    - sure
+    - c'est bon
+    - ça marche
+    - parfait
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - non
+    - pas maintenant
+    - stoppez
+    - not now
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+# ---------------------------
+# Synonyms (normalize domain)
+# ---------------------------
+- synonym: po
+  examples: |
+    - bc
+    - bon de commande
+    - purchase order
+    - ordre d'achat
+    - commande
+
+- synonym: vat
+  examples: |
+    - tva
+    - taxe
+    - value added tax
+
+- synonym: rfq
+  examples: |
+    - ao
+    - appel d'offres
+    - négociation
+    - tender
+    - offre
+
+# ---------------------------
+# Regexes (entities by pattern)
+# ---------------------------
+- regex: po_number
+  examples: |
+    - (?i)\b(?:PO|BC)[ -]?\d{6,10}\b
+
+- regex: invoice_number
+  examples: |
+    - (?i)\b(?:FAC|INV)[ -]?[A-Z0-9]{5,12}\b
+
+# ---------------------------
+# Lookups (boost domain vocab)
+# ---------------------------
+- lookup: flow_keywords_work_confirmation
+  examples: |
+    - confirmation de travaux
+    - attachement
+    - work confirmation
+    - validation des travaux
+    - rapport d'exécution
+
+- lookup: flow_keywords_invoice
+  examples: |
+    - facture
+    - facturation
+    - invoice
+    - billing
+    - paiement
+    - règlement
+
+- lookup: flow_keywords_rfq
+  examples: |
+    - appel d'offres
+    - offres
+    - rfq
+    - négociations
+    - tender
+
+# ---------------------------
+# Welcome / Navigation
+# ---------------------------
+- intent: welcome.start
+  examples: |
+    - bonjour
+    - salut
+    - coucou
+    - je veux commencer
+    - démarrer
+    - aide
+    - menu
+    - je commence
+    - start
+    - help
+    - let's go
+    - begin
+    - slt
+    - slm
+
+- intent: ask_next_step
+  examples: |
+    - et après ?
+    - what next?
+    - what's next?
+    - next step?
+    - next?
+    - c'est quoi la suite ?
+    - et maintenant ?
+    - and now?
+    - après ?
+    - ok, next?
+    - yes, what now?
+    - et puis
+    - et apres
+    - etape suivante ?
+    - on passe à la suite ?
+    - quel est l'étape suivante ?
+    - step by step
+    - continue ?
+    - next
+    - suivant
+    - go ahead
+    - on continue
+    - let's continue
+    - continue please
+
+- intent: stop
+  examples: |
+    - stop
+    - annuler
+    - cancel
+    - quit
+    - exit
+
+- intent: some_unrelated_intent
+  examples: |
+    - autre chose sans rapport
+    - something unrelated
+
+# ---------------------------
+# Référencement Fournisseur
+# ---------------------------
+- intent: referencement_fournisseur.start
+  examples: |
+    - compte fournisseur
+    - je veux m'inscrire
+    - enregistrement fournisseur
+    - devenir fournisseur
+    - créer un compte
+    - s'inscrire comme fournisseur
+    - débuter l'enregistrement
+    - nouveau fournisseur
+    - supplier account
+    - I want to register
+    - supplier registration
+    - become a supplier
+    - create account
+    - sign up as supplier
+    - start registration
+    - new supplier
+
+- intent: referencement_fournisseur.step_1
+  examples: |
+    - formulaire
+    - infos requises
+    - remplir dossier
+    - étape suivante
+    - données société
+    - informations de base
+    - démarrer l'inscription
+    - coordonnées
+    - form
+    - required info
+    - complete application
+    - next step
+    - company details
+    - basic information
+    - begin registration
+    - contact details
+
+- intent: referencement_fournisseur.step_2
+  examples: |
+    - valider formulaire
+    - infos complémentaires
+    - compléter les coordonnées
+    - ajouter l'adresse et la ville
+    - submit form
+    - additional details
+    - fill company address details
+
+- intent: referencement_fournisseur.step_3
+  examples: |
+    - confirmer informations
+    - documents requis
+    - catégories produits et services
+    - sélectionner des rubriques
+    - confirm details
+    - required documents
+    - select product service categories
+
+- intent: referencement_fournisseur.step_4
+  examples: |
+    - finaliser
+    - soumettre documents
+    - terminer inscription
+    - valider enregistrement
+    - compléter processus
+    - envoyer dossier
+    - confirmer inscription
+    - complete
+    - submit documents
+    - finish registration
+    - validate account
+    - finalize process
+    - send application
+    - confirm registration
+
+- intent: referencement_fournisseur.step_5
+  examples: |
+    - téléverser les documents
+    - ajouter un document joint
+    - joindre les pièces
+    - soumettre mon dossier d'inscription
+    - upload attachments and submit
+    - finalize supplier submission
+    - envoyer les justificatifs
+
+# ---------------------------
+# Reset Password
+# ---------------------------
+- intent: reset_password.start
+  examples: |
+    - mot de passe oublié
+    - réinitialiser mot de passe
+    - accès perdu
+    - changer mot de passe
+    - problème connexion
+    - récupérer compte
+    - nouveau mot de passe
+    - réactiver compte
+    - forgot password
+    - reset password
+    - lost access
+    - change password
+    - login problem
+    - recover account
+    - new password
+    - reactivate account
+
+- intent: reset_password.step_1
+  examples: |
+    - je clique sur assistance à la connexion
+    - j'ai ouvert la page d'aide
+    - accès à assistance connexion
+    - page mot de passe oublié ouverte
+    - I clicked on login help
+    - opened forgot password page
+
+- intent: reset_password.step_2
+  examples: |
+    - j'ai saisi mon email
+    - email entré
+    - email fourni
+    - entered my email
+    - provided my email address
+
+- intent: reset_password.step_3
+  examples: |
+    - j'ai cliqué sur mot de passe oublié
+    - bouton réinitialisation cliqué
+    - demande de reset envoyée
+    - clicked forgot password button
+    - requested reset
+
+- intent: reset_password.step_4
+  examples: |
+    - email reçu
+    - lien de réinitialisation
+    - confirmer réinitialisation
+    - valider mot de passe
+    - code vérification
+    - finir processus
+    - compte réactivé
+    - received email
+    - reset link
+    - confirm reset
+    - validate password
+    - verification code
+    - finish process
+    - account reactivated
+
+# ---------------------------
+# Soumission d'offre (RFQ)
+# ---------------------------
+- intent: soumission_offre_voir_offre.step_1
+  examples: |
+    - voir offres
+    - consulter appel d'offres
+    - liste des offres
+    - opportunités
+    - marchés disponibles
+    - projets ouverts
+    - détails offre
+    - suivi offres
+    - nouveaux appels d'offres
+    - accéder aux offres
+    - recherche d'offres
+    - offres en cours
+    - publication appels d'offres
+    - analyse des offres
+    - historique offres
+    - view offer
+    - check tender
+    - offer list
+    - opportunities
+    - available contracts
+    - open projects
+    - offer details
+    - offer tracking
+    - new tenders
+    - access offers
+    - search offers
+    - current offers
+    - tender publications
+    - offer analysis
+    - offer history
+
+- intent: soumission_offre_discussion_en_ligne.step_1
+  examples: |
+    - discussion en ligne
+    - poser une question sur l'offre
+    - envoyer un message au buyer
+    - demander des précisions sur la négociation
+    - échanger avec l'acheteur
+    - ouvrir une discussion
+    - répondre au message
+    - joindre un fichier dans la discussion
+    - relancer l'acheteur
+    - online discussion
+    - send a message to buyer
+    - ask for clarification
+    - follow up on the tender
+    - reply to a message
+    - attach a file in the discussion
+    - start a thread with purchaser
+    - open Q and A for this RFQ
+
+- intent: soumission_offre_remplir_entete.step_1
+  examples: |
+    - remplir en-tête
+    - informations offre
+    - détails soumission
+    - section administrative
+    - coordonnées offre
+    - pièces justificatives de l'offre
+    - saisie des informations administratives
+    - ajouter commentaires dans l'en-tête
+    - correction du formulaire d'en-tête
+    - soumission finale de l'en-tête
+    - edit header document
+    - fill header
+    - offer information
+    - submission details
+    - admin section
+    - offer contacts
+    - administrative form
+    - offer review
+    - submission check
+    - form validation
+    - add comments to header
+
+- intent: soumission_offre_remplir_lignes.step_1
+  examples: |
+    - remplir lignes
+    - détails produits
+    - quantités et prix
+    - articles offre
+    - liste fournitures
+    - spécifications techniques
+    - échéancier
+    - compléter lignes
+    - ajouter produits
+    - informations articles
+    - tarifs et quantités
+    - données techniques
+    - lignes de devis
+    - remplir tableau
+    - définir quantités
+    - indiquer prix
+    - saisir détails articles
+    - renseigner lignes offre
+    - edit supply list
+    - fill lines
+    - product details
+    - quantities and prices
+    - offer items
+    - supplies list
+    - technical specs
+    - complete lines
+    - add products
+    - item details
+    - pricing and quantities
+    - technical data
+    - quote lines
+    - fill table
+    - set quantities
+    - enter prices
+    - provide item info
+    - fill offer lines
+    - add product info
+    - enter technical details
+
+# ---------------------------
+# Confirmation de travaux
+# ---------------------------
+- intent: confirmation_travaux.step_1
+  examples: |
+    - confirmation travaux
+    - valider intervention
+    - créer une confirmation de travaux
+    - débuter travaux
+    - lancer le chantier
+    - work confirmation
+    - approve intervention
+    - start project
+    - declare completed work
+    - submit work confirmation
+
+# ---------------------------
+# Facturation (flows)
+# ---------------------------
+- intent: facturation_saisir_facture_travaux.step_1
+  examples: |
+    - facture travaux
+    - créer facture
+    - enregistrer paiement
+    - déclarer intervention
+    - note honoraires
+    - demande paiement
+    - solliciter règlement
+    - générer facture
+    - nouvelle facture
+    - ajouter facture
+    - saisir facture
+    - établir facture
+    - éditer une facture
+    - produire facture
+    - envoyer facture
+    - préparer facture
+    - déposer facture
+    - faire une demande de paiement
+    - work invoice
+    - create invoice
+    - record payment
+    - declare work
+    - fee note
+    - request payment
+    - solicit settlement
+    - generate invoice
+    - new invoice
+    - add invoice
+    - enter invoice
+    - issue invoice
+    - edit invoice
+    - produce invoice
+    - send invoice
+    - prepare invoice
+    - submit invoice
+    - make a payment request
+
+# NOTE: Removed phrases that belong to FAQ (invoice/payment status & viewing)
+- intent: facturation_details.step_1
+  examples: |
+    - modifier paiement
+    - coordonnées bancaires
+    - relance paiement
+    - modify payment
+    - bank details
+    - payment reminder
+
+# ====================== FAQ: iSupplier Overview ======================
+- intent: faq/isupplier_overview
+  examples: |
+    - what is oracle isupplier portal?
+    - what is the isupplier portal
+    - isupplier overview
+    - overview of i-supplier
+    - explain isupplier
+    - oracle ebs r12 isupplier overview
+    - c'est quoi le portail i-supplier
+    - qu'est-ce qu'i-supplier ?
+    - présentation du portail isupplier
+    - i-supplier, à quoi ça sert ?
+    - c’est quoi isupplier ?
+    - isupplier portal meaning
+
+# ====================== FAQ: Access / Login ======================
+- intent: faq/portal_access
+  examples: |
+    - how do I access the isupplier portal
+    - where do I log in to isupplier
+    - isupplier login url
+    - login page for isupplier
+    - sign in to isupplier
+    - comment accéder au portail isupplier
+    - page de connexion i-supplier ?
+    - où se connecter au portail fournisseur
+    - lien de connexion isupplier
+    - accès portail isupplier
+
+# ====================== FAQ: Browser Support ======================
+- intent: faq/browser_support
+  examples: |
+    - supported browsers for oracle isupplier
+    - browser requirements
+    - which browser works with isupplier
+    - chrome edge firefox support?
+    - navigateurs compatibles
+    - quel navigateur pour isupplier
+    - navigateurs supportés par le portail
+    - safari compatible ?
+    - exigences navigateur
+
+# ====================== FAQ: Language Switch ======================
+- intent: faq/language_switch
+  examples: |
+    - how do I change language
+    - switch language in isupplier
+    - change portal language
+    - set portal to english
+    - changer la langue du portail
+    - basculer en anglais
+    - mettre isupplier en français
+    - modifier la langue d’affichage
+
+# ====================== FAQ: PO Lookup ======================
+- intent: faq/po_lookup
+  examples: |
+    - how to find a PO
+    - where can I see POs
+    - find my purchase order
+    - search purchase order by number
+    - view PO details in isupplier
+    - comment trouver un bon de commande
+    - rechercher un PO
+    - où consulter mes bons de commande
+    - consulter les détails d’un BC
+    - trouver un BC par numéro
+
+# ====================== FAQ: PO Acknowledgment ======================
+- intent: faq/po_ack
+  examples: |
+    - acknowledge purchase order
+    - how to acknowledge a PO
+    - accept a PO in isupplier
+    - confirm PO receipt
+    - accusé de réception du PO
+    - comment accuser réception d'un BC
+    - confirmer un bon de commande
+    - étapes d’accusé de réception du BC
+    - accepter le BC
+
+# ====================== FAQ: Invoice Submission ======================
+- intent: faq/invoice_submission
+  examples: |
+    - how to submit an invoice
+    - submit invoice in isupplier
+    - create an invoice from PO
+    - steps to create invoice
+    - soumettre une facture
+    - créer une facture dans isupplier
+    - déposer une facture liée au BC
+    - étapes de création de facture
+    - envoyer ma facture via le portail
+
+# ====================== FAQ: Invoice Holds ======================
+- intent: faq/invoice_holds
+  examples: |
+    - why is my invoice on hold
+    - invoice hold reasons
+    - resolve invoice hold
+    - fix invoice on hold status
+    - resolve invoice holds
+    - clear invoice holds
+    - lever les blocages facture
+    - résoudre les blocages facture
+    - pourquoi ma facture est en attente
+    - facture en hold raisons
+    - lever le blocage de la facture
+    - facture bloquée motif
+    - comment corriger une facture en attente
+
+# ====================== FAQ: Payment Status ======================
+- intent: faq/payment_status
+  examples: |
+    - payment status in isupplier
+    - payment status
+    - where is my payment
+    - when will I get paid
+    - check if invoice is paid
+    - view payments
+    - show payments
+    - where can I see payments
+    - suivi paiement facture
+    - statut de paiement
+    - où voir les paiements
+    - afficher mes paiements
+    - voir paiements
+    - état du règlement
+    - vérifier si ma facture est payée
+    - quand serai-je payé
+
+# ====================== FAQ: Attachments ======================
+- intent: faq/attachments
+  examples: |
+    - attachment requirements
+    - what attachments are allowed
+    - supported attachment formats
+    - which file types can I upload
+    - exigences pièces jointes
+    - formats des documents annexes
+    - pièces jointes autorisées
+    - types de fichiers autorisés (pdf png jpg)
+    - upload supporting documents
+
+# ====================== FAQ: Notifications ======================
+- intent: faq/notifications
+  examples: |
+    - how do notifications work
+    - where to see portal notifications
+    - approval alerts and messages
+    - pending approvals alerts
+    - notifications et alertes
+    - où voir les notifications
+    - alertes d’approbation en attente
+    - messages d’alerte du portail
+    - suivi des notifications
+
+# ====================== FAQ: Invoices Status / Details ======================
+- intent: faq/invoices_status
+  examples: |
+    - view invoices / status
+    - view invoices
+    - where can I see invoices
+    - show my invoices
+    - my invoices
+    - invoices history
+    - invoice details
+    - check invoice
+    - view invoice
+    - see my invoices
+    - find an invoice
+    - where is my invoice
+    - rechercher une facture
+    - où en est ma facture
+    - pending invoices
+    - invoice status
+    - consulter mes factures
+    - liste des factures
+    - statut des factures
+    - état des factures
+    - voir factures
+    - détails facture
+    - details facture
+    - factures en attente
+    - factures non payees
+    - factures non payées

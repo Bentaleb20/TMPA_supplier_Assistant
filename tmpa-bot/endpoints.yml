@@ -1,0 +1,7 @@
+tracker_store:
+  type: SQL
+  dialect: "sqlite"
+  db: "tracker.db"      # un fichier sera créé à la racine du projet
+
+action_endpoint:
+  url: "http://localhost:5055/webhook"

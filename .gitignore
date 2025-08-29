@@ -1,0 +1,41 @@
+# --- Python / Rasa ---
+.venv/
+venv/
+env/
+rasa_env/
+**/__pycache__/
+*.pyc
+**/.rasa/
+tmpa-bot/.rasa/
+tmpa-bot/models/
+
+# --- Node / frontend ---
+node_modules/
+build/
+dist/
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Secrets ---
+.env
+*.env
+
+# --- Large binaries we NEVER want in git ---
+*.dll
+*.lib
+*.pyd
+*.so
+*.dylib
+*.tar.gz
+*.zip
+*.7z
+*.whl
+*.h5
+*.pb
+*.pt
+*.onnx
+*.bin

@@ -1,0 +1,707 @@
+version: "3.1"
+
+intents:
+  # Small talk / default
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - stop
+  - some_unrelated_intent
+
+  # Navigation / flow control
+  - welcome.start
+  - ask_next_step
+
+  # Retrieval FAQ (respond_faq will handle sub-intents like faq/payment_status)
+  - faq
+
+  # i-Supplier flows
+  - referencement_fournisseur.start
+  - referencement_fournisseur.step_1
+  - referencement_fournisseur.step_2
+  - referencement_fournisseur.step_3
+  - referencement_fournisseur.step_4
+  - referencement_fournisseur.step_5
+  - reset_password.start
+  - reset_password.step_1
+  - reset_password.step_2
+  - reset_password.step_3
+  - reset_password.step_4
+  - soumission_offre_voir_offre.step_1
+  - soumission_offre_discussion_en_ligne.step_1
+  - soumission_offre_remplir_entete.step_1
+  - soumission_offre_remplir_lignes.step_1
+  - confirmation_travaux.step_1
+  - facturation_saisir_facture_travaux.step_1
+  - facturation_details.step_1
+
+entities: []
+
+slots:
+  active_flow:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+  step_index:
+    type: float
+    influence_conversation: true
+    mappings:
+      - type: custom
+  lang:
+    type: text
+    influence_conversation: false
+    initial_value: "EN"   # default language so conditions always match
+    mappings:
+      - type: custom
+
+responses:
+
+  # --- your original small-talk responses ---
+  utter_greet:
+    - text: "Hey! How are you?"
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+  utter_did_that_help:
+    - text: "Did that help you?"
+  utter_happy:
+    - text: "Great, carry on!"
+  utter_goodbye:
+    - text: "Bye"
+
+  # ---------- Supplier Registration (7) ----------
+  utter_sr_step_1:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 1/7
+        Let’s start your company profile. Open the i-Supplier portal and click **Référencement des nouveaux fournisseurs**.
+        Tip: Keep your legal details and tax certificate nearby so we can move smoothly.
+      image: /screenshots/supplier-registration/step1.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 1/7
+        Démarrons votre profil. Ouvrez le portail i-Supplier et cliquez sur **Référencement des nouveaux fournisseurs**.
+        Astuce : gardez vos informations légales et attestations fiscales à portée pour avancer sereinement.
+      image: /screenshots/supplier-registration/step1.webp
+  utter_sr_step_2:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 2/7
+        Complete your **Legal Name**, **Tax ID**, **Registered Address**, **Country/City** and **Primary Contact**.
+        Use the official spelling from your trade registry—this speeds up validation.
+      image: /screenshots/supplier-registration/step2.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 2/7
+        Renseignez **Raison sociale**, **Identifiant fiscal**, **Adresse**, **Pays/Ville** et **Contact principal**.
+        Utilisez l’intitulé officiel du registre de commerce pour accélérer la validation.
+        image: /screenshots/supplier-registration/step2.webp
+
+
+  utter_sr_step_3:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 3/7
+        Upload your supporting documents: incorporation certificate, tax certificate, and bank RIB/IBAN.
+        Accepted formats: PDF / JPG / PNG. Clear scans reduce back-and-forth later.
+      image: /screenshots/supplier-registration/step3.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 3/7
+        Téléversez les justificatifs : registre de commerce, attestation fiscale et RIB/IBAN.
+        Formats acceptés : PDF / JPG / PNG. Des scans lisibles évitent des retours ultérieurs.
+        image: /screenshots/supplier-registration/step3.webp
+  utter_sr_step_4:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 4/7
+        Select your **Product/Service Categories** (UNSPSC/Oracle). Choosing the closest match helps buyers route requests to you.
+      image: /screenshots/supplier-registration/step4.webp  
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 4/7
+        Sélectionnez vos **Catégories Produits/Services** (UNSPSC/Oracle). Des choix précis favorisent votre visibilité auprès des acheteurs.
+      image: /screenshots/supplier-registration/step4.webp
+  utter_sr_step_5:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 5/7
+        Add **Bank Details**: Account Name, Bank, IBAN/RIB, SWIFT/BIC.
+        The beneficiary must match your legal entity to avoid payment holds.
+        image: /screenshots/supplier-registration/step5.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 5/7
+        Ajoutez vos **Coordonnées bancaires** : Intitulé du compte, Banque, IBAN/RIB, SWIFT/BIC.
+        Le bénéficiaire doit correspondre à la raison sociale pour éviter les blocages de paiement.
+        image: /screenshots/supplier-registration/step5.webp
+
+  utter_sr_step_6:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 6/7
+        Review everything: VAT number, address, emails, categories.
+        Resolve warnings now—this prevents rejection and speeds final approval.
+        image: /screenshots/supplier-registration/step6.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 6/7
+        Relisez : numéro TVA, adresse, emails, catégories.
+        Corrigez les avertissements : cela évite les rejets et accélère l’approbation.
+        image: /screenshots/supplier-registration/step6.webp
+
+  utter_sr_step_7:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supplier Registration — Step 7/7
+        Click **Submit**. You’ll receive an email acknowledgment. TMPA will review and get back if anything needs adjustment.
+      image: /screenshots/supplier-registration/step7.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Référencement Fournisseur — Étape 7/7
+        Cliquez sur **Soumettre**. Vous recevrez un accusé par email. TMPA vous contactera si des ajustements sont nécessaires.
+      image: /screenshots/supplier-registration/step7.webp
+
+  # ---------- Forgot Password (4) ----------
+  utter_fp_step_1:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Forgot Password — Step 1/4
+        On the login page, click **Assistance à la connexion** We’ll guide you through recovery.
+      image: /screenshots/Forgot_Password/step1.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Mot de passe oublié — Étape 1/4
+        Sur la page de connexion, cliquez **Assistance à la connexion** Nous vous guidons pour la récupération.
+      image: /screenshots/Forgot_Password/step1.webp
+
+  utter_fp_step_2:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Forgot Password — Step 2/4
+        Enter your **username or email** used for i-Supplier. If you’re unsure, try your corporate email first.
+      image: /screenshots/Forgot_Password/step2.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Mot de passe oublié — Étape 2/4
+        Saisissez votre **identifiant ou email** utilisé sur i-Supplier. En cas de doute, essayez votre email professionnel.
+      image: /screenshots/Forgot_Password/step2.webp
+
+  utter_fp_step_3:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Forgot Password — Step 3/4
+        Check your inbox for the **reset link** (and spam). If a code is requested, copy it exactly.
+      image: /screenshots/Forgot_Password/step3.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Mot de passe oublié — Étape 3/4
+        Consultez votre boîte (et spam) pour le **lien de réinitialisation**. Si un code est demandé, copiez-le tel quel.
+      image: /screenshots/Forgot_Password/step3.webp
+
+  utter_fp_step_4:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Forgot Password — Step 4/4
+        Set a strong password (8+ chars, mixed case, number/symbol). Then sign in again.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Mot de passe oublié — Étape 4/4
+        Choisissez un mot de passe solide (8+ caractères, majuscules/minuscules, chiffre/symbole). Connectez-vous à nouveau.
+
+  # ---------- Work Confirmation (4) ----------
+  utter_wc_step_1:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Work Confirmation — Step 1/4
+        Go to **Work Confirmations** and click **Create**. Pick the Purchase Order lines you performed work against.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Confirmation de travaux — Étape 1/4
+        Ouvrez **Confirmations de travaux** et cliquez **Créer**. Sélectionnez les lignes de BC sur lesquelles vous avez réalisé la prestation.
+
+  utter_wc_step_2:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Work Confirmation — Step 2/4
+        Enter the **performed quantity/period** and add supporting files (delivery reports, service sheets) if required.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Confirmation de travaux — Étape 2/4
+        Indiquez la **quantité/période réalisée** et joignez des pièces (PV, fiches de service) si demandé.
+
+  utter_wc_step_3:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Work Confirmation — Step 3/4
+        Validate the lines, add a short note for the approver if context helps (e.g., milestones reached).
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Confirmation de travaux — Étape 3/4
+        Validez les lignes et ajoutez une note à l’approbateur si utile (ex. jalons atteints).
+
+  utter_wc_step_4:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Work Confirmation — Step 4/4
+        Click **Submit**. You can follow approval from **Notifications** (and we’ll alert you here too).
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Confirmation de travaux — Étape 4/4
+        Cliquez **Soumettre**. Suivez l’approbation dans **Notifications** (nous vous alerterons aussi ici).
+
+  # ---------- Invoice Creation with PO (6) ----------
+  utter_inv_step_1:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 1/6
+        Go to **Invoices → Create**. If your invoice relates to a Purchase Order, select **PO-Matched**.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 1/6
+        Ouvrez **Factures → Créer**. Si la facture concerne un BC, choisissez **Liée au BC**.
+
+  utter_inv_step_2:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 2/6
+        Fill the header: **Supplier**, **Invoice Number**, **Date**, **Currency**, **Tax Regime**.
+        Make sure the number matches your PDF exactly to avoid duplicate checks.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 2/6
+        Complétez l’en-tête : **Fournisseur**, **N° Facture**, **Date**, **Devise**, **Régime fiscal**.
+        Le numéro doit correspondre exactement au PDF pour éviter les doublons.
+
+  utter_inv_step_3:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 3/6
+        Add lines via **Match PO** or **Add Line**. Verify quantity, unit price, taxes and currency.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 3/6
+        Ajoutez les lignes via **Associer BC** ou **Ajouter ligne**. Vérifiez quantité, prix unitaire, taxes et devise.
+
+  utter_inv_step_4:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 4/6
+        Attach the **PDF invoice** and any supporting docs (delivery note, service report). Totals must match.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 4/6
+        Joignez la **facture PDF** et les justificatifs (BL, PV). Les totaux doivent correspondre.
+
+  utter_inv_step_5:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 5/6
+        Validate taxes (correct VAT code, any withholding). Resolve warnings before submitting to avoid holds.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 5/6
+        Validez les taxes (code TVA, retenue éventuelle). Corrigez les alertes avant soumission pour éviter les blocages.
+
+  utter_inv_step_6:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Create Invoice — Step 6/6
+        Click **Submit**. Track status in **Invoice History** (On Hold / Validated / Approved / Paid).
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Créer facture — Étape 6/6
+        Cliquez **Soumettre**. Suivez le statut dans **Historique des factures** (En attente / Validée / Approuvée / Payée).
+
+  # --- i-Supplier assistant responses ---
+  utter_welcome:
+    - text: >
+        Bonjour 👋 Je suis l’assistant i-Supplier. Dites “référencement fournisseur”,
+        “mot de passe oublié”, “confirmation de travaux”, “créer facture”, etc.
+    - text: >
+        Hello 👋 I’m the i-Supplier assistant. Say “supplier registration”,
+        “forgot password”, “work confirmation”, “create invoice”, etc.
+
+  utter_cancelled:
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: "❎ Parcours annulé."
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: "❎ Flow cancelled."
+
+  utter_done_end:
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: "✅ Fin du parcours. Souhaitez-vous un autre processus ?"
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: "✅ Flow completed. Would you like another procedure?"
+
+  # ===== FAQ: iSupplier Overview =====
+  utter_faq/isupplier_overview:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Oracle iSupplier Portal is a secure supplier self-service gateway to collaborate with TMPA on POs, deliveries, invoices, and payments.
+        It helps you:
+        • See and acknowledge Purchase Orders  
+        • Submit Work Confirmations and Invoices  
+        • Track approvals, holds, and payment status  
+        • Maintain your company profile and bank details
+        You keep full visibility and reduce email back-and-forth.
+      image: /screenshots/docs/isupplier_overview.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Oracle iSupplier est un portail sécurisé d’auto-service permettant aux fournisseurs de collaborer avec la TMPA sur les BC, livraisons, factures et paiements.
+        Vous pouvez :
+        • Consulter/accuser réception des bons de commande  
+        • Déposer des confirmations de travaux et factures  
+        • Suivre les validations, blocages et paiements  
+        • Mettre à jour le profil société et les coordonnées bancaires
+        Résultat : plus de visibilité et moins d’échanges mail.
+      image: /screenshots/docs/isupplier_overview.webp
+
+  # ===== FAQ: Access / Login =====
+  utter_faq/portal_access:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Access the iSupplier login page from your TMPA onboarding email or the official supplier page.
+        If you don’t have credentials yet, complete the **Supplier Registration** first—then you’ll receive your user account.
+        Tip: bookmark the login URL and use corporate email for support.
+      image: /screenshots/docs/login.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Accédez à la page de connexion iSupplier via l’email d’onboarding TMPA ou la page fournisseur officielle.
+        Sans identifiants, commencez par **le Référencement Fournisseur** — vous recevrez ensuite votre compte utilisateur.
+        Astuce : mettez l’URL en favoris et utilisez votre email professionnel pour toute demande d’aide.
+      image: /screenshots/docs/login.webp
+
+  utter_faq/browser_support:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Recommended browsers: latest **Chrome**, **Edge**, or **Firefox**.
+        Enable cookies and pop-ups for the portal domain. If a page seems stuck, clear cache or try a private window.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Navigateurs recommandés : **Chrome**, **Edge** ou **Firefox** à jour.
+        Activez cookies et pop-ups pour le domaine du portail. En cas de blocage, videz le cache ou essayez une fenêtre privée.
+
+  utter_faq/language_switch:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        You can switch language from your user preferences inside iSupplier. In our assistant, use the globe button to toggle EN/FR.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Vous pouvez changer la langue dans vos préférences utilisateur iSupplier. Dans l’assistant, utilisez l’icône globe pour basculer FR/EN.
+
+  # ===== FAQ: PO (Orders) =====
+  utter_faq/po_lookup:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Go to **Orders → Purchase Orders**. Search by PO number, date, or status.
+        Open a PO to view lines, quantities, price, delivery addresses, and attachments. You can export details if needed.
+      image: /screenshots/docs/po_lookup.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Allez dans **Commandes → Bons de commande**. Recherchez par numéro, date ou statut.
+        Ouvrez un BC pour voir les lignes, quantités, prix, adresses de livraison et pièces jointes. Export possible si nécessaire.
+      image: /screenshots/docs/po_lookup.webp
+
+  utter_faq/po_ack:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Open the PO and click **Acknowledge** to confirm. If you need to propose changes (dates or quantities), add a comment before confirming.
+        Buyers see your acknowledgment in real-time.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Ouvrez le BC puis cliquez **Accuser réception**. Si vous proposez des ajustements (dates/quantités), ajoutez un commentaire avant la confirmation.
+        Les acheteurs voient instantanément votre accusé.
+
+  # ===== FAQ: Invoices & Payments =====
+  utter_faq/invoice_submission:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        From **Invoices → Create**, choose **PO-matched** if your invoice is linked to a Purchase Order.
+        Fill the header (Supplier, Invoice number/date, Currency, Tax), then **Match PO lines** and attach your PDF invoice.
+        Validate taxes and totals, then **Submit** to start approval.
+      image: /screenshots/docs/invoice_create.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Dans **Factures → Créer**, choisissez **Liée au BC** si votre facture se rattache à un bon de commande.
+        Renseignez l’en-tête (Fournisseur, N°/Date, Devise, Fiscalité), **Associez les lignes BC** et joignez la facture PDF.
+        Validez taxes et totaux, puis **Soumettre** pour lancer l’approbation.
+      image: /screenshots/docs/invoice_create.webp
+
+  utter_faq/invoice_holds:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Common hold reasons: PO mismatch (price/qty), missing attachments, invalid VAT code, or bank details mismatch.
+        Open the invoice to see the hold reason and fix the specific field, then resubmit. We can guide you step-by-step.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Motifs fréquents : écart BC (prix/qté), pièces jointes manquantes, code TVA invalide, ou RIB non conforme.
+        Ouvrez la facture pour voir le motif, corrigez le champ concerné puis resoumettez. Nous pouvons vous guider pas à pas.
+
+  utter_faq/payment_status:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Check **Finance → Payments** or open your invoice history. Status examples: *Validated*, *Approved*, *Paid*.
+        If paid, you’ll see the payment reference and date. If pending, we can estimate timelines based on approvals.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Consultez **Finances → Paiements** ou l’historique des factures. Exemples de statuts : *Validée*, *Approuvée*, *Payée*.
+        Si payée, vous verrez la référence et la date. Si en attente, nous pouvons estimer le délai selon les validations.
+
+  utter_faq/attachments:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Supported formats: PDF/JPG/PNG, clear scans, max size per file based on portal policy.
+        Typical docs: invoice PDF, delivery note, work/service report, tax certificate when required.
+        Name files clearly (e.g., *INV_12345_2025-08.pdf*).
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Formats pris en charge : PDF/JPG/PNG, scans lisibles, taille max selon la politique du portail.
+        Pièces usuelles : facture PDF, BL, PV de service, attestation fiscale si nécessaire.
+        Nommez clairement les fichiers (ex. *FAC_12345_2025-08.pdf*).
+
+  utter_faq/notifications:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Notifications alert you on approvals, holds, or missing info. You can see them in the portal and here in the assistant.
+        Clear the warning at the source (e.g., invoice tax) to auto-resolve the alert.
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Les notifications vous alertent sur les validations, blocages ou infos manquantes. Elles sont visibles dans le portail et ici dans l’assistant.
+        Corrigez la cause (ex. TVA de la facture) pour lever automatiquement l’alerte.
+
+  utter_faq/invoices_status:
+    - condition:
+        - type: slot
+          name: lang
+          value: "EN"
+      text: |
+        Go to **Invoices → Invoices**. Use filters (number, date, status) to find items.
+        Columns show **Amount**, **Due date**, and **Status** (*Pending/On Hold/Validated/Approved/Paid*).
+        Click an invoice to see lines, taxes, and attachments. You can export the list if needed.
+      image: /screenshots/docs/invoices_status.webp
+    - condition:
+        - type: slot
+          name: lang
+          value: "FR"
+      text: |
+        Allez dans **Factures → Factures**. Filtrez par numéro, date ou **statut**.
+        Les colonnes affichent **Montant**, **Échéance** et **Statut** (*En attente/En hold/Validée/Approuvée/Payée*).
+        Ouvrez une facture pour voir les lignes, taxes et pièces jointes. Export possible si besoin.
+      image: /screenshots/docs/invoices_status.webp
+
+actions:
+  - action_route_isupplier
+  - action_next_step
+  - action_back_step
+  - action_reset_flow
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
